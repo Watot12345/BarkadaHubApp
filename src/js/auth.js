@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Open modal
     openModalBtn.addEventListener('click', function () {
         modal.classList.remove('hidden');
-        modal.classList.add('active');
+        modal.classList.add('active', 'flex');
         setTimeout(() => {
             brand.classList.add('-translate-y-50', 'transition-transform', 'duration-900');
             slogan.classList.add('hidden');
