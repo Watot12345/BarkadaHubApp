@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+/* Define your custom colors as CSS variables */
+:root {
+    --color-primary: #4361ee;
+    --color-secondary: #3f37c9;
+    --color-accent: #4cc9f0;
+    --color-success: #4bb543;
+    --color-warning: #ffcc00;
+    --color-danger: #dc3545;
+}
+
+/* Then create utility classes using @layer and @apply */
+@layer utilities {
+    .bg-primary { background-color: var(--color-primary); }
+    .bg-secondary { background-color: var(--color-secondary); }
+    .bg-accent { background-color: var(--color-accent); }
+    .bg-success { background-color: var(--color-success); }
+    .bg-warning { background-color: var(--color-warning); }
+    .bg-danger { background-color: var(--color-danger); }
+
+    .text-primary { color: var(--color-primary); }
+    .text-secondary { color: var(--color-secondary); }
+    .text-accent { color: var(--color-accent); }
+    .text-success { color: var(--color-success); }
+    .text-warning { color: var(--color-warning); }
+    .text-danger { color: var(--color-danger); }
+}
+
