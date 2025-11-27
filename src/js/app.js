@@ -1,14 +1,18 @@
 import HeaderComponent from "./components/header.js";
-import mobileNavigations from "./components/mobileNav.js";
+import { mobileNavigations, rightSideBar, leftSideBar } from "./components/navigations.js";
 
 document.addEventListener('DOMContentLoaded', function () {
 
     const headerElement = document.getElementById('header');
     const mobileNav = document.getElementById('mobileNav');
+    const rightSideNav = document.getElementById('rightSideBar');
+    const leftSideNav = document.getElementById('leftSideBar');
 
     if (headerElement || mobileNav) {
         headerElement.innerHTML = HeaderComponent();
         mobileNav.innerHTML = mobileNavigations();
+        rightSideNav.innerHTML = rightSideBar();
+        leftSideNav.innerHTML = leftSideBar();
     }
 
     const file = window.location.pathname.split("/").pop();

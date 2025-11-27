@@ -9,12 +9,101 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
 
-    <body>
-        <div id="header"></div>
+    <body class="bg-gray-200 pb-10">
+        <div id="app">
+            <div id="header"></div>
 
+            <div class="container mx-auto px-4 mb-10">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <!-- Left Sidebar -->
+                    <div id="leftSideBar"></div>
 
+                    <!-- Main Content Area -->
+                    <div class="lg:col-span-2">
 
-        <div id="mobileNav"></div>
+                        <!-- Profile Page -->
+                        <div class="page-section" id="profile-page">
+                            <div class="bg-white rounded-lg shadow-sm overflow-hidden mb-6">
+                                <div class="h-48 bg-primary overflow-hidden relative">
+                                    <img src="https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80"
+                                        alt="Profile Banner" class="w-full h-full object-cover">
+                                </div>
+                                <div class="p-6 relative">
+                                    <div
+                                        class="profile-avatar w-24 h-24 rounded-full border-4 border-white absolute -top-12 left-6 overflow-hidden bg-gray-200">
+                                        <img src="https://i.pravatar.cc/150?img=12" alt="User Avatar"
+                                            class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="profile-details mt-12 md:mt-0 md:ml-32">
+                                        <h1 class="text-2xl font-bold mb-1">Alex Johnson</h1>
+                                        <p class="text-gray-600 mb-2">Computer Science Major · Class of 2024</p>
+                                        <p class="text-gray-600 mb-4"><i class="fas fa-map-marker-alt mr-1"></i> Manila,
+                                            Philippines</p>
+
+                                        <div class="profile-stats flex gap-6 mb-4">
+                                            <div class="stat text-center">
+                                                <div class="stat-value font-bold text-xl">245</div>
+                                                <div class="stat-label text-sm text-gray-500">Friends</div>
+                                            </div>
+                                            <div class="stat text-center">
+                                                <div class="stat-value font-bold text-xl">12</div>
+                                                <div class="stat-label text-sm text-gray-500">Clubs</div>
+                                            </div>
+                                            <div class="stat text-center">
+                                                <div class="stat-value font-bold text-xl">47</div>
+                                                <div class="stat-label text-sm text-gray-500">Posts</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="profile-actions flex gap-3">
+                                            <button
+                                                class="primary-btn bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-secondary transition">Edit
+                                                Profile</button>
+                                            <button
+                                                class="secondary-btn bg-white text-primary border border-primary px-4 py-2 rounded-lg font-medium hover:bg-gray-50 transition">Share
+                                                Profile</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg shadow-sm p-5">
+                                <h3 class="text-lg font-bold text-primary mb-4">Alex's Posts</h3>
+
+                                <div class="post bg-white rounded-lg border border-gray-200 p-4 mb-4">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <div class="flex items-center gap-3">
+                                            <div class="avatar w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                                                <img src="https://i.pravatar.cc/150?img=12" alt="User Avatar"
+                                                    class="w-full h-full object-cover">
+                                            </div>
+                                            <div>
+                                                <h4 class="font-medium">Alex Johnson</h4>
+                                                <span class="text-xs text-gray-500">2 days ago · <i
+                                                        class="fas fa-globe-americas"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <p>Just submitted my final project for Data Structures! Feeling accomplished 🎉
+                                        </p>
+                                    </div>
+                                    xs <div class="flex justify-between text-sm text-gray-500">
+                                        <div class="likes text-xs">42 likes <div class="comments">8 comments</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Sidebar -->
+                        <div id="rightSideBar"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Bottom Navigation -->
+            <div id="mobileNav"></div>
+        </div>
 
         <script type="module" src="../js/app.js"></script>
     </body>
