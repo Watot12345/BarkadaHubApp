@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
 
-    <body class="bg-gray-50 text-gray-800">
+    <body class="bg-gray-200">
 
         <!-- Main App (shown after login) -->
         <div id="app">
@@ -54,7 +54,7 @@
                     <!-- Main Content Area -->
                     <div class="lg:col-span-2">
                         <!-- Home Page -->
-                        <div class="page-section active" id="home-page">
+                        <div class="mb-15 border border-gray-300 p-4 rounded-lg shadow-2xl" id="home-page">
                             <!-- Create Post -->
                             <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
                                 <div class="flex gap-3 mb-4">
@@ -63,7 +63,8 @@
                                             class="w-full h-full object-cover">
                                     </div>
                                     <textarea placeholder="What's on your mind, Alex?"
-                                        class="flex-1 border border-gray-300 rounded-lg p-3 resize-none focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+                                        class="flex-1 border border-gray-300 rounded-lg p-3 resize-none focus:outline-none focus:ring-2 focus:ring-primary"
+                                        minlength="0" maxlength="100"></textarea>
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <div class="flex gap-4">
@@ -73,23 +74,13 @@
                                         <button
                                             class="action-btn flex items-center gap-1 text-gray-500 hover:text-primary transition"><i
                                                 class="fas fa-video"></i> Video</button>
-                                        <button
-                                            class="action-btn flex items-center gap-1 text-gray-500 hover:text-primary transition"><i
-                                                class="fas fa-map-marker-alt"></i> Location</button>
                                     </div>
-                                    <button
-                                        class="bg-primary text-white px-5 py-2 rounded-lg font-medium hover:bg-secondary transition">Post</button>
+                                    <div>
+                                        <button
+                                            class="bg-primary px-5 py-2 rounded-lg font-medium hover:bg-secondary transition">Post</button>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <!-- Tabs for different feeds -->
-                            <div class="flex border-b border-gray-200 mb-4">
-                                <div class="tab active py-3 px-5 border-b-2 border-primary text-primary font-medium cursor-pointer"
-                                    data-tab="all">All Posts</div>
-                                <div class="tab py-3 px-5 text-gray-500 cursor-pointer hover:text-primary transition"
-                                    data-tab="clubs">Club Posts</div>
-                                <div class="tab py-3 px-5 text-gray-500 cursor-pointer hover:text-primary transition"
-                                    data-tab="lost-found">Lost & Found</div>
                             </div>
 
                             <!-- All Posts Tab -->
@@ -181,52 +172,6 @@
                                             class="post-action flex items-center gap-1 text-gray-500 hover:bg-gray-100 px-4 py-2 rounded-lg transition">
                                             <i class="far fa-share-square"></i> Share
                                         </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Club Posts Tab -->
-                            <div class="tab-content hidden" id="club-posts">
-                                <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
-                                    <div class="flex justify-between items-center mb-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="avatar w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                                                <img src="https://i.pravatar.cc/150?img=32" alt="Club Avatar"
-                                                    class="w-full h-full object-cover">
-                                            </div>
-                                            <div>
-                                                <h4 class="font-medium">Photography Club</h4>
-                                                <span class="text-xs text-gray-500">3 hours ago · <i
-                                                        class="fas fa-users"></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4">
-                                        <p>Our next photo walk is scheduled for Saturday at the botanical gardens. Don't
-                                            forget your cameras!</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Lost & Found Tab -->
-                            <div class="tab-content hidden" id="lost-found-posts">
-                                <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
-                                    <div class="flex justify-between items-center mb-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="avatar w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                                                <img src="https://i.pravatar.cc/150?img=22" alt="User Avatar"
-                                                    class="w-full h-full object-cover">
-                                            </div>
-                                            <div>
-                                                <h4 class="font-medium">Sarah Lim</h4>
-                                                <span class="text-xs text-gray-500">4 hours ago · <i
-                                                        class="fas fa-map-marker-alt"></i> Student Center</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4">
-                                        <p>FOUND: A set of keys with a cute cat keychain at the student center
-                                            cafeteria. Describe the keys to claim!</p>
                                     </div>
                                 </div>
                             </div>
@@ -618,36 +563,10 @@
             </div>
 
             <!-- Mobile Bottom Navigation -->
-            <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-lg flex justify-around py-3 z-30">
-                <a href="./home.html" class="mobile-nav-item active flex flex-col items-center text-primary"
-                    data-page="home">
-                    <i class="fas fa-home text-xl mb-1"></i>
-                    <span class="text-xs">Home</span>
-                </a>
-                <a href="./clubs.html" class="mobile-nav-item flex flex-col items-center text-gray-500"
-                    data-page="clubs">
-                    <i class="fas fa-users text-xl mb-1"></i>
-                    <span class="text-xs">Clubs</span>
-                </a>
-                <a href="./lost-found.html" class="mobile-nav-item flex flex-col items-center text-gray-500"
-                    data-page="lost-found">
-                    <i class="fas fa-search text-xl mb-1"></i>
-                    <span class="text-xs">Lost & Found</span>
-                </a>
-                <a href="./messages.html" class="mobile-nav-item flex flex-col items-center text-gray-500"
-                    data-page="messages">
-                    <i class="fas fa-comment-dots text-xl mb-1"></i>
-                    <span class="text-xs">Messages</span>
-                </a>
-                <a href="./profile.html" class="mobile-nav-item flex flex-col items-center text-gray-500"
-                    data-page="profile">
-                    <i class="fas fa-user text-xl mb-1"></i>
-                    <span class="text-xs">Profile</span>
-                </a>
-            </div>
+            <div id="mobileNav"></div>
         </div>
 
-        <script type="module" src="../js/components/header.js"></script>
+        <script type="module" src="../js/app.js"></script>
     </body>
 
 </html>
