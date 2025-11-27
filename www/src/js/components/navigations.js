@@ -18,12 +18,12 @@ export function mobileNavigations() {
         </a>
         <a href="./messages.html" class="mobile-nav-item flex flex-col items-center text-gray-500"
             data-page="messages">
-            <i class="fas fa-comment-dots text-xl mb-1"></i>
-            <span class="text-xs">Messages</span>
+            <i class="fab fa-youtube text-xl mb-1"></i>
+            <span class="text-xs">Videos</span>
         </a>
         <a href="./profile.html" class="mobile-nav-item flex flex-col items-center text-gray-500"
             data-page="profile">
-            <i class="fas fa-user text-xl mb-1"></i>
+            <i class="fas fa-circle-user text-xl mb-1"></i>
             <span class="text-xs">Profile</span>
         </a>
     </div>
