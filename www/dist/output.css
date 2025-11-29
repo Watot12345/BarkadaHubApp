@@ -520,6 +520,9 @@
   .border-white {
     border-color: var(--color-white);
   }
+  .bg-black {
+    background-color: var(--color-black);
+  }
   .bg-gray-100 {
     background-color: var(--color-gray-100);
   }
