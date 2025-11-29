@@ -31,8 +31,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (error) {
+<<<<<<< HEAD
             alert(error.message);
             return;
+=======
+            console.error(error);
+            alert('Error creating user: ' + error.message);
+        } else {
+            console.log(data);
+            alert('User created successfully!');
+            signupForm.reset();
+          //  window.location.href = "src/html/home.html";
+>>>>>>> 42dbd3638c26bd6a28d067d569c5c02897d502f7
         }
 
         await supabaseClient.auth.signInWithPassword({
