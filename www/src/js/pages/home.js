@@ -174,4 +174,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initialize post button as disabled
     postButton.disabled = true;
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    LoadHome();
+});
+
+     async function LoadHome() {
+    const { data, error } = await supabaseClient.auth.getUser();
+
+    if (!error && data?.user) {
+        const name = data.user.user_metadata?.display_name || "User";
+
+        const FeedElement = document.getElementById("postContent");
+        
+          
+        if (FeedElement ) {
+            FeedElement.placeholder= `What's on your mind, ${name}?`;
+        }
+    } else {
+        console.log("User not logged in");
+    }
+}
 });
