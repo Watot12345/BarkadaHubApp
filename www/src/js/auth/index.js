@@ -1,10 +1,9 @@
-import { timeout } from "./functions.js";
+import { timeout } from "../functions.js";
 
 document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('authModal');
     const openModalBtn = document.getElementById('openModal');
     const brand = document.getElementById('brand');
-    const signupBrand = document.getElementById('signupBrand');
     const slogan = document.getElementById('slogan');
     const loginContainer = document.getElementById('loginContainer');
     const signupContainer = document.getElementById('signupContainer');
@@ -53,8 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         signupContainer.classList.add('hidden');
         loginContainer.classList.remove('hidden');
-
-
     });
+
 });
 
