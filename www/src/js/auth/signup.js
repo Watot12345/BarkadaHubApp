@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             alert('User created successfully! Check your email to verify.');
             signupForm.reset();
-            window.location.href = "src/html/profile.html";
+            //window.location.href = "src/html/profile.html";
         }
     });
 });
