@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (file) {
             const { data: uploadData, error: uploadError } = await supabaseClient.storage
-                .from('lost_found_files')
+                .from('lost_found')
                 .upload(`${user.id}/${file.name}`, file);
 
             if (uploadError) {
@@ -74,6 +74,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const { data: report, error: insertError } = await supabaseClient
             .from('lost_found')
             .insert([{
+                item_type: itemType,
+                item_name: itemName,
+                category,
                 description,
                 location,
                 contact_number: contact,
