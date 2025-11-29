@@ -1,7 +1,7 @@
 import supabaseClient from '../supabase.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    const signupForm = document.getElementById('signupForm');
+    const signupForm = document.getElementById('signupForm'); // Attach to form
 
     signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -11,17 +11,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const signupPassword = document.getElementById('signupPassword').value;
         const signupConfirmPassword = document.getElementById('signupConfirmPassword').value;
 
+        // Validate empty fields
         if (!signupName || !signupEmail || !signupPassword || !signupConfirmPassword) {
             alert('Please fill out all fields');
             return;
         }
 
+        // Validate password match
         if (signupPassword !== signupConfirmPassword) {
             alert("Passwords don't match");
             return;
         }
 
-        // Create account
         const { data, error } = await supabaseClient.auth.signUp({
             email: signupEmail,
             password: signupPassword,
@@ -31,16 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (error) {
-            alert(error.message);
-            return;
+            console.error(error);
+            alert('Error creating user: ' + error.message);
+        } else {
+            alert('User created successfully! Check your email to verify.');
+            signupForm.reset();
+            window.location.href = "src/html/profile.html";
         }
-
-        await supabaseClient.auth.signInWithPassword({
-            email: signupEmail,
-            password: signupPassword
-        });
-
-        alert('Account created & logged in!');
-        //window.location.href = "src/html/profile.html";
     });
 });
+
