@@ -3,6 +3,8 @@ import { mobileNavigations, rightSideBar, leftSideBar } from "./components/navig
 
 document.addEventListener('DOMContentLoaded', function () {
 
+
+    // Load components
     const headerElement = document.getElementById('header');
     const mobileNav = document.getElementById('mobileNav');
     const rightSideNav = document.getElementById('rightSideBar');
@@ -15,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
         leftSideNav.innerHTML = leftSideBar();
     }
 
+    // Highlight current mobile navigation item
     const file = window.location.pathname.split("/").pop();
     const currentPage = file.split(".")[0];
 
@@ -29,11 +32,5 @@ document.addEventListener('DOMContentLoaded', function () {
             item.classList.add("text-gray-500");
         }
     });
+
 });
-
-
-
-
-
-
-
