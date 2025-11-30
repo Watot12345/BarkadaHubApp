@@ -16,8 +16,8 @@ export function mobileNavigations() {
             <i class="fas fa-search text-xl mb-1"></i>
             <span class="text-xs">Lost & Found</span>
         </a>
-        <a href="./messages.html" class="mobile-nav-item flex flex-col items-center text-gray-500"
-            data-page="messages">
+        <a href="./videos.html" class="mobile-nav-item flex flex-col items-center text-gray-500"
+            data-page="videos">
             <i class="fab fa-youtube text-xl mb-1"></i>
             <span class="text-xs">Videos</span>
         </a>

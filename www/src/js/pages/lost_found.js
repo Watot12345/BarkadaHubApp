@@ -1,11 +1,10 @@
 import supabaseClient from '../supabase.js';
-import supabaseClient from './supabase.js';
-import AlertSystem from './render/Alerts.js';
+import AlertSystem from '../render/Alerts.js';
 
 document.addEventListener('DOMContentLoaded', async function () {
     const alertSystem = new AlertSystem();
 
-    const { data, error } = await supabaseClient.auth.getUser(); // await here
+    const { data, error } = await supabaseClient.auth.getUser();
 
     if (error || !data?.user) {
 

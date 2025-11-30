@@ -25,12 +25,23 @@ document.addEventListener('DOMContentLoaded', async function () {
     const rightSideNav = document.getElementById('rightSideBar');
     const leftSideNav = document.getElementById('leftSideBar');
 
-    if (headerElement || mobileNav) {
+    if (headerElement) {
         headerElement.innerHTML = HeaderComponent();
+    }
+
+    if (mobileNav) {
         mobileNav.innerHTML = mobileNavigations();
+    }
+
+    if (rightSideNav) {
         rightSideNav.innerHTML = rightSideBar();
+    }
+
+    if (leftSideNav) {
         leftSideNav.innerHTML = leftSideBar();
     }
+
+
 
     // Highlight current mobile navigation item
     const file = window.location.pathname.split("/").pop();
