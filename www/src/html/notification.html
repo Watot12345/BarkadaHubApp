@@ -4,148 +4,119 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>BarkadaHub - Notifications</title>
+        <title>BarkadaHub - Videos</title>
         <link rel="stylesheet" href="../../dist/output.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
 
-    <body class="bg-gray-100 min-h-screen">
-        <!-- for alerts -->
+    <body>
         <div id="alertContainer" class="fixed top-5 right-5 z-40 max-w-md"></div>
         <div id="app">
             <div id="header"></div>
+            <!-- Notifications Page -->
+            <div class="bg-white ">
+                <!-- Header -->
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900">Notifications</h1>
 
-            <div class="container mx-auto px-4 mb-10 ">
-                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                    <!-- Left Sidebar -->
-                    <div id="leftSideBar"></div>
+                        </div>
+                        <button id="markAllRead"
+                            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200 font-medium flex items-center gap-2">
+                            Mark all as read
+                        </button>
+                    </div>
+                </div>
 
-                    <!-- Main Content Area -->
-                    <div class="lg:col-span-2">
-                        <!-- Notifications Page -->
-                        <div class="bg-white rounded-lg shadow-sm">
-                            <!-- Header -->
-                            <div class="p-6 border-b border-gray-200">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h1 class="text-2xl font-bold text-gray-900">Notifications</h1>
+                <!-- Notifications List -->
+                <div class="divide-y divide-gray-100 max-h-screen overflow-y-auto">
+                    <!-- Friend Request -->
+                    <div class="notification-item unread p-4 hover:bg-gray-50 transition duration-200">
+                        <div class="flex items-center gap-3">
 
-                                    </div>
-                                    <button id="markAllRead"
-                                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200 font-medium flex items-center gap-2">
-                                        Mark all as read
-                                    </button>
+                            <!-- Icon -->
+                            <div class="flex-0">
+                                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                                    <i class="fas fa-user-plus text-blue-600 text-lg"></i>
                                 </div>
                             </div>
 
+                            <!-- Text content -->
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="font-semibold text-gray-900">Maria Santos</span>
+                                    <span class="unread-dot rounded-full"></span>
+                                </div>
+                                <p class="text-gray-700 text-sm mb-2">Sent you a friend request</p>
+                                <span class="text-xs text-gray-500 mt-2">5 minutes ago</span>
+                            </div>
 
-
-                            <!-- Notifications List -->
-                            <div class="divide-y divide-gray-100">
-                                <!-- Friend Request -->
-                                <div class="notification-item unread p-4 hover:bg-gray-50 transition duration-200">
-                                    <div class="flex items-center gap-3">
-
-                                        <!-- Icon -->
-                                        <div class="flex-0">
-                                            <div
-                                                class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                                                <i class="fas fa-user-plus text-blue-600 text-lg"></i>
-                                            </div>
-                                        </div>
-
-                                        <!-- Text content -->
-                                        <div class="flex-1 min-w-0">
-                                            <div class="flex items-center gap-2 mb-1">
-                                                <span class="font-semibold text-gray-900">Maria Santos</span>
-                                                <span class="unread-dot rounded-full"></span>
-                                            </div>
-                                            <p class="text-gray-700 text-sm mb-2">Sent you a friend request</p>
-                                            <span class="text-xs text-gray-500 mt-2">5 minutes ago</span>
-                                        </div>
-
-                                        <!-- Buttons -->
-                                        <div class="flex flex-col gap-2">
-                                            <button class=" confirm-friend bg-primary text-white px-4 py-1.5 rounded
+                            <!-- Buttons -->
+                            <div class="flex flex-col gap-2">
+                                <button class=" confirm-friend bg-primary text-white px-4 py-1.5 rounded
                                             text-sm font-medium hover:bg-blue-700 transition">
-                                                Confirm
-                                            </button>
-                                            <button
-                                                class="delete-friend bg-gray-200 text-gray-700 px-4 py-1.5 rounded text-sm font-medium hover:bg-gray-300 transition">
-                                                Delete
-                                            </button>
-                                        </div>
-
-                                        <!-- Avatar -->
-                                        <div class="flex-0 ml-3">
-                                            <img src="https://i.pravatar.cc/150?img=32" alt="Maria Santos"
-                                                class="w-10 h-10 rounded-full">
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <!-- Post Like -->
-                                <div class="notification-item unread p-4 hover:bg-gray-50 transition duration-200">
-                                    <div class="flex items-start gap-3">
-                                        <div class="flex-0">
-                                            <div
-                                                class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
-                                                <i class="fas fa-heart text-red-500 text-lg"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <div class="flex items-center gap-2 mb-1">
-                                                <span class="font-semibold text-gray-900">Juan Dela Cruz</span>
-                                                <span>and</span>
-                                                <span class="font-semibold text-gray-900">3 others</span>
-                                                <span class="unread-dot rounded-full"></span>
-                                            </div>
-                                            <p class="text-gray-700 text-sm mb-2">liked your post: "Just submitted my
-                                                final project!"</p>
-                                            <span class="text-xs text-gray-500">1 hour ago</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Comment -->
-                                <div class="notification-item unread p-4 hover:bg-gray-50 transition duration-200">
-                                    <div class="flex items-start gap-3">
-                                        <div class="flex-0">
-                                            <div
-                                                class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
-                                                <i class="fas fa-comment text-purple-600 text-lg"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <div class="flex items-center gap-2 mb-1">
-                                                <span class="font-semibold text-gray-900">Ana Reyes</span>
-                                                <span class="unread-dot rounded-full"></span>
-                                            </div>
-                                            <p class="text-gray-700 text-sm mb-2">commented on your photo: "This looks
-                                                amazing! 😍"</p>
-                                            <span class="text-xs text-gray-500">2 hours ago</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                    Confirm
+                                </button>
+                                <button
+                                    class="delete-friend bg-gray-200 text-gray-700 px-4 py-1.5 rounded text-sm font-medium hover:bg-gray-300 transition">
+                                    Delete
+                                </button>
                             </div>
 
-                            <!-- Load More -->
-                            <!-- <div class="p-4 text-center border-t border-gray-200">
-                                <button
-                                    class="bg-gray-100 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-200 transition duration-200 font-medium">
-                                    Load More Notifications
-                                </button>
-                            </div> -->
+                            <!-- Avatar -->
+                            <div class="flex-0 ml-3">
+                                <img src="https://i.pravatar.cc/150?img=32" alt="Maria Santos"
+                                    class="w-10 h-10 rounded-full">
+                            </div>
+
                         </div>
                     </div>
 
-                    <!-- Right Sidebar -->
-                    <div id="rightSideBar"></div>
+                    <!-- Post Like -->
+                    <div class="notification-item unread p-4 hover:bg-gray-50 transition duration-200">
+                        <div class="flex items-start gap-3">
+                            <div class="flex-0">
+                                <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fas fa-heart text-red-500 text-lg"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="font-semibold text-gray-900">Juan Dela Cruz</span>
+                                    <span>and</span>
+                                    <span class="font-semibold text-gray-900">3 others</span>
+                                    <span class="unread-dot rounded-full"></span>
+                                </div>
+                                <p class="text-gray-700 text-sm mb-2">liked your post: "Just submitted my
+                                    final project!"</p>
+                                <span class="text-xs text-gray-500">1 hour ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comment -->
+                    <div class="notification-item unread p-4 hover:bg-gray-50 transition duration-200">
+                        <div class="flex items-start gap-3">
+                            <div class="flex-0">
+                                <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
+                                    <i class="fas fa-comment text-purple-600 text-lg"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="font-semibold text-gray-900">Ana Reyes</span>
+                                    <span class="unread-dot rounded-full"></span>
+                                </div>
+                                <p class="text-gray-700 text-sm mb-2">commented on your photo: "This looks
+                                    amazing! 😍"</p>
+                                <span class="text-xs text-gray-500">2 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Mobile Bottom Navigation -->
             <div id="mobileNav"></div>
         </div>
 

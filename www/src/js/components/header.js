@@ -10,7 +10,7 @@ export default function HeaderComponent() {
             </div>
             <div class="user-actions flex items-center gap-4">
                 <div class="notification-icon relative cursor-pointer">
-                <a href="./messages.html">
+                <a href="./notification.html">
                     <i class="fas fa-bell text-primary text-lg"></i>
                     <span
                         class="notification-badge absolute -top-2 -right-1

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Computer Science Club - BarkadaHub</title>
+        <link rel="stylesheet" href="../../dist/output.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            .club-header {
+                background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                    url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+                background-size: cover;
+                background-position: center;
+            }
+
+            /* Modal Animation */
+            .modal-enter {
+                animation: modalEnter 0.3s ease-out;
+            }
+
+            @keyframes modalEnter {
+                from {
+                    opacity: 0;
+                    transform: scale(0.95) translateY(-10px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: scale(1) translateY(0);
+                }
+            }
+
+            .tab-active {
+                border-bottom: 3px solid #3b82f6;
+                color: #3b82f6;
+            }
+
+            .scrollbar-custom::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .scrollbar-custom::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 10px;
+            }
+
+            .scrollbar-custom::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 10px;
+            }
+
+            .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+        </style>
+    </head>
+
+    <body class="bg-gray-100 min-h-screen">
+        <div id="alertContainer" class="fixed top-5 right-5 z-50 max-w-md"></div>
+
+        <!-- Club Header -->
+        <div id="header"></div>
+
+        <div class="club-header text-white">
+            <div class="container mx-auto px-4 py-12">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex space-x-4">
+                        <!-- Club Info Button -->
+                        <button onclick="openClubModal()"
+                            class="bg-white/20 hover:bg-white/30 backdrop-blur-sm px-4 py-2 rounded-lg transition">
+                            <i class="fas fa-info-circle mr-2"></i>Club Info
+                        </button>
+
+                        <button class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Leave Club
+                        </button>
+                    </div>
+                </div>
+
+                <h1 class="text-4xl font-bold mb-4">Computer Science Club</h1>
+                <p class="text-xl text-white/90 mb-6 max-w-3xl">A community for programming enthusiasts, hackers, and
+                    tech innovators. Weekly workshops, hackathons, and career development sessions.</p>
+
+                <div class="flex flex-wrap gap-4">
+                    <span class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg">
+                        <i class="fas fa-users mr-2"></i>245 Members
+                    </span>
+                    <span class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg">
+                        <i class="fas fa-tag mr-2"></i>Academic & Technology
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Club Info Modal -->
+        <div id="clubModal"
+            class="fixed inset-0 bg-black/70 z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+            <div
+                class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden modal-enter animate-fadeIn">
+                <!-- Modal Header -->
+                <div class="bg-linear-to-r from-blue-600 to-purple-600 text-white p-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h2 class="text-2xl font-bold">Computer Science Club</h2>
+                            <p class="text-blue-100 mt-1 text-sm">Complete club information and management</p>
+                        </div>
+                        <button onclick="closeClubModal()"
+                            class="text-white hover:bg-white/20 p-2 rounded-full transition duration-200">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+
+                    <!-- Modal Tabs -->
+                    <div class="flex mt-4 space-x-1" id="modalTabs">
+                        <button onclick="switchModalTab('info')"
+                            class="modal-tab flex-1 py-3 text-center font-medium border-b-2 border-white text-white tab-active">
+                            <i class="fas fa-info-circle mr-2"></i>Information
+                        </button>
+                        <button onclick="switchModalTab('members')"
+                            class="modal-tab flex-1 py-3 text-center font-medium border-b-2 border-transparent text-blue-100 hover:text-white transition">
+                            <i class="fas fa-users mr-2"></i>Members
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal Content -->
+                <div class="p-6 overflow-y-auto max-h-[60vh] scrollbar-custom">
+                    <!-- Club Information Tab -->
+                    <div id="infoTab" class="modal-tab-content space-y-6">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-info-circle text-blue-500 mr-2"></i>About Club
+                            </h3>
+                            <p class="text-gray-600 leading-relaxed">The Computer Science Club is the premier community
+                                for programming enthusiasts, hackers, and tech innovators at the university. We
+                                foster learning, collaboration, and innovation through workshops, hackathons, and
+                                career development sessions.</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-gavel mr-2 text-blue-500"></i>Club Rules
+                            </h3>
+                            <div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                                <ul class="space-y-2 text-gray-700">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                        <span>Respect all members regardless of skill level or background</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                        <span>Participate actively in discussions and club activities</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                        <span>Help others learn and grow in a supportive environment</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                        <span>No inappropriate, offensive, or discriminatory content</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                        <span>Follow university policies and academic integrity guidelines</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Members Tab -->
+                    <div id="membersTab" class="modal-tab-content hidden">
+                        <!-- Search Members -->
+                        <div class="mb-6">
+                            <div class="relative">
+                                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                                <input type="text" placeholder="Search members by name or role..."
+                                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+
+                        <!-- Member Count -->
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Club Members</h3>
+                            <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">245 members</span>
+                        </div>
+
+                        <!-- Active Members -->
+                        <div>
+                            <h4
+                                class="font-semibold text-gray-700 mb-3 text-sm uppercase tracking-wider flex items-center">
+                                <i class="fas fa-user-check text-green-500 mr-2"></i> Members
+                            </h4>
+                            <div class="space-y-3">
+                                <div class="flex items-center p-3 hover:bg-gray-50 rounded-lg transition">
+                                    <div
+                                        class="w-10 h-10 bg-linear-to-r from-green-600 to-green-700 rounded-full flex items-center justify-center text-white font-bold mr-4">
+                                        YT
+                                    </div>
+                                    <div class="flex-1">
+                                        <h5 class="font-medium text-gray-800">You</h5>
+                                        <p class="text-xs text-gray-500">Member • Joined recently</p>
+                                    </div>
+                                    <span
+                                        class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">Online</span>
+                                </div>
+
+                                <div class="flex items-center p-3 hover:bg-gray-50 rounded-lg transition">
+                                    <div
+                                        class="w-10 h-10 bg-linear-to-r from-orange-600 to-orange-700 rounded-full flex items-center justify-center text-white font-bold mr-4">
+                                        JL
+                                    </div>
+                                    <div class="flex-1">
+                                        <h5 class="font-medium text-gray-800">John Lee</h5>
+                                        <p class="text-xs text-gray-500">Secretary • Sophomore, Data Science</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="border-t border-gray-200 px-2 py-1 bg-gray-50">
+                    <div class="flex justify-between items-center">
+                        <div class="text-sm text-gray-500">
+                            Last updated: November 2023
+                        </div>
+                        <div class="flex space-x-3">
+                            <button onclick="closeClubModal()"
+                                class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="app">
+            <div class="container mx-auto px-4 py-8">
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 ">
+                    <!-- Left Column: Posts -->
+                    <div class="lg:col-span-2">
+                        <!-- Create Post -->
+                        <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                            <form id="postForm" class="space-y-4">
+                                <div class="flex gap-3 mb-4">
+                                    <div class="avatar w-12 h-12 rounded-full bg-gray-200 overflow-hidden">
+                                        <img src="https://i.pravatar.cc/150?img=12" alt="User Avatar"
+                                            class="w-full h-full object-cover">
+                                    </div>
+                                    <textarea id="postContent" name="postContent"
+                                        placeholder="Share something with the club..."
+                                        class="flex-1 border border-gray-300 rounded-lg p-3 resize-none focus:outline-none focus:ring-2 focus:ring-primary text-md"
+                                        minlength="0" maxlength="500" rows="3"></textarea>
+                                </div>
+
+                                <!-- Character Counter -->
+                                <div class="text-right text-xs text-gray-500">
+                                    <span id="charCount">0</span>/500
+                                </div>
+
+                                <!-- Media Preview -->
+                                <div id="mediaPreview" class="hidden rounded-lg overflow-hidden bg-gray-100 p-2">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-sm font-medium">Media Preview</span>
+                                        <button type="button" id="removeMedia" class="text-red-500 hover:text-red-700">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <div id="previewContainer" class="flex justify-center">
+                                        <!-- preview will be =show here -->
+                                    </div>
+                                </div>
+
+                                <!-- Post Options -->
+                                <div class="flex justify-between items-center">
+                                    <div class="flex gap-4 items-center">
+                                        <!-- Photo Upload -->
+                                        <label for="photoUpload"
+                                            class="flex items-center gap-2 text-gray-600 hover:text-primary transition font-medium cursor-pointer">
+                                            <i class="fas fa-image text-md"></i>
+                                            <span class="text-xs">Photo</span>
+                                            <input type="file" id="photoUpload" name="photoUpload" accept="image/*"
+                                                class="hidden">
+                                        </label>
+
+                                        <!-- Video Upload -->
+                                        <label for="videoUpload"
+                                            class="flex items-center gap-2 text-gray-600 hover:text-primary transition font-medium cursor-pointer">
+                                            <i class="fas fa-video text-md"></i>
+                                            <span class="text-xs">Video</span>
+                                            <input type="file" id="videoUpload" name="videoUpload" accept="video/*"
+                                                class="hidden">
+                                        </label>
+                                    </div>
+
+                                    <div>
+                                        <button type="submit" id="postButton"
+                                            class="bg-primary py-1 px-3 rounded-lg text-md text-white hover:bg-secondary transition disabled:opacity-50 disabled:cursor-not-allowed">
+                                            Post
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Posts -->
+                        <div class="tab-content active space-y-6 mb-10" id="all-posts">
+                            <div id="dynamic-posts"></div>
+
+                            <div class="bg-white rounded-xl shadow-sm p-6">
+                                <div class="flex items-center mb-4">
+                                    <div
+                                        class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
+                                        AJ
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-800">Alex Johnson</h4>
+                                        <p class="text-sm text-gray-500">Club President • 2 hours ago</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 mb-4">📣 Reminder: Our annual Hackathon starts this Friday!
+                                    Teams of
+                                    3-4, 48 hours to build something amazing. $2000 in prizes! Register at
+                                    hackathon.csclub.edu</p>
+                                <div class="flex items-center space-x-6 text-gray-500">
+                                    <button class="flex items-center hover:text-red-500">
+                                        <i class="far fa-heart mr-2"></i> 24
+                                    </button>
+                                    <button class="flex items-center hover:text-blue-500">
+                                        <i class="far fa-comment mr-2"></i> 5 Comments
+                                    </button>
+                                    <button class="flex items-center hover:text-green-500">
+                                        <i class="fas fa-share mr-2"></i> Share
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- initial Post by Developers -->
+                            <div class="bg-white rounded-lg shadow-sm p-5 ">
+                                <div class="flex justify-between items-center mb-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="avatar w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                                            <img src="https://i.pravatar.cc/150?img=1" alt="Developer Avatar"
+                                                class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium">Developer Team</h4>
+                                            <span class="text-xs text-gray-500">Just now · <i
+                                                    class="fas fa-users"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <p>Welcome to BarkadaHub! This is the first post created by the developers.
+                                        Enjoy connecting with your campus community!</p>
+                                    <div class="post-image mt-3 rounded-lg overflow-hidden h-50 w-full shadow-lg">
+                                        <img src="../images/wp3792745.jpg" alt="Post Image"
+                                            class="w-full h-50 object-fit ">
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex justify-between text-xs text-gray-500 mb-3 pb-3 border-b border-gray-200">
+                                    <div class="likes">0 likes</div>
+                                    <div class="comments">0 comments</div>
+                                </div>
+                                <div class="flex justify-around border-t border-gray-200 pt-2">
+                                    <button
+                                        class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition">
+                                        <i class="far fa-thumbs-up text-sm"></i>
+                                        <span class="text-xs">Like</span>
+                                    </button>
+                                    <button
+                                        class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition">
+                                        <i class="far fa-comment text-sm"></i>
+                                        <span class="text-xs">Comment</span>
+                                    </button>
+                                    <button
+                                        class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition">
+                                        <i class="far fa-share-square text-sm"></i>
+                                        <span class="text-xs">Share</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mobileNav"></div>
+        </div>
+
+        <div id="offlinePage" class="hidden"></div>
+
+        <script>
+            // Modal functionality
+            function openClubModal() {
+                const modal = document.getElementById('clubModal');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+
+            function closeClubModal() {
+                const modal = document.getElementById('clubModal');
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }
+
+            function switchModalTab(tabName) {
+                // Hide all tab contents
+                document.querySelectorAll('.modal-tab-content').forEach(tab => {
+                    tab.classList.add('hidden');
+                });
+
+                // Remove active state from all tabs
+                document.querySelectorAll('.modal-tab').forEach(tab => {
+                    tab.classList.remove('tab-active');
+                    tab.classList.remove('border-white');
+                    tab.classList.remove('text-white');
+                    tab.classList.add('border-transparent');
+                    tab.classList.add('text-blue-100');
+                });
+
+                // Show selected tab content
+                document.getElementById(tabName + 'Tab').classList.remove('hidden');
+
+                // Add active state to selected tab
+                const activeTab = document.querySelector(`[onclick="switchModalTab('${tabName}')"]`);
+                activeTab.classList.add('tab-active', 'border-white', 'text-white');
+                activeTab.classList.remove('border-transparent', 'text-blue-100');
+            }
+
+            // Close modal when clicking outside
+            document.getElementById('clubModal').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    closeClubModal();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    closeClubModal();
+                }
+            });
+
+            // Character counter for post form
+            const postContent = document.getElementById('postContent');
+            const charCount = document.getElementById('charCount');
+
+            if (postContent && charCount) {
+                postContent.addEventListener('input', function () {
+                    const length = this.value.length;
+                    charCount.textContent = length;
+
+                    if (length >= 450) {
+                        charCount.classList.add('text-red-500');
+                    } else {
+                        charCount.classList.remove('text-red-500');
+                    }
+                });
+            }
+
+            // Show success message for modal opening
+            document.querySelector('button[onclick="openClubModal()"]').addEventListener('click', function () {
+                console.log('Club info modal opened');
+            });
+        </script>
+
+        <script type="module" src="../js/app.js"></script>
+    </body>
+
+</html>
