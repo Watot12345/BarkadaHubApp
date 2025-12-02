@@ -156,7 +156,8 @@ document.addEventListener('DOMContentLoaded', function () {
             newPost.user_name,
             newPost.content,
             newPost.media_url,
-            newPost.media_type
+            newPost.media_type,
+            newPost.id
         );
         postsContainer.insertAdjacentHTML("afterbegin", newPostHtml);
         displayedPostIds.add(newPost.id);
@@ -179,7 +180,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 post.user_name,
                 post.content,
                 post.media_url,
-                post.media_type
+                post.media_type,
+                post.id
             );
             postsContainer.insertAdjacentHTML("beforeend", postHtml);
             displayedPostIds.add(post.id);
@@ -241,6 +243,7 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.classList.add('hidden');
         }, 150);
     }
+
 
     LoadHome();
     getPost();

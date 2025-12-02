@@ -1,64 +1,64 @@
-export default function uploadedPost(name, content, file, media_type, postId = 1) {
+export default function uploadedPost(name, content, file, media_type, postId = 1, likes = 0, comments = 0) {
     return `
         <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
             <div class="flex justify-between items-center mb-4">
                 <div class="flex items-center gap-3">
                     <div class="avatar w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                        <img src="https://i.pravatar.cc/150?img=1" alt="${name} Avatar"
-                            class="w-full h-full object-cover">
+                        <img src="https://i.pravatar.cc/150?img=1" alt="${name} Avatar" class="w-full h-full object-cover">
                     </div>
                     <div>
                         <h4 class="font-medium">${name}</h4>
-                        <span class="text-xs text-gray-500">Just now · <i
-                                class="fa-regular fa-user"></i></span>
+                        <span class="text-xs text-gray-500">Just now · <i class="fa-regular fa-user"></i></span>
                     </div>
                 </div>
                 <button class="ellipsis-btn group" data-post-id="${postId}">
-                    <div
-                        class="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 group-hover:bg-gray-100">
-                        <i
-                            class="fas fa-ellipsis-h text-gray-500 group-hover:text-gray-700"></i>
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 group-hover:bg-gray-100">
+                        <i class="fas fa-ellipsis-h text-gray-500 group-hover:text-gray-700"></i>
                     </div>
                 </button>
             </div>
+
             <div class="mb-4">
-            <p>${content}</p>
-            ${file ? `
-                <div class="post-image mt-3 rounded-lg overflow-hidden h-50 w-full shadow-lg">
-                    ${media_type === "video"
+                <p>${content}</p>
+                ${file ? `
+                    <div class="post-image mt-3 rounded-lg overflow-hidden h-50 w-full shadow-lg">
+                        ${media_type === "video"
                 ? `<video src="${file}" controls class="w-full h-full object-cover"></video>`
-                : `<img src="${file}" alt="Post Image" class="w-full h-50 object-fit ">`
+                : `<img src="${file}" alt="Post Image" class="w-full h-50 object-cover">`
             }
-                </div>
-            ` : ''}
-
-
+                    </div>
+                ` : ''}
             </div>
-            <div
-                class="flex justify-between text-xs text-gray-500 mb-3 pb-3 border-b border-gray-200">
-                <div class="likes">0 likes</div>
-                <div class="comments">0 comments</div>
+
+            <div class="flex justify-between text-xs text-gray-500 mb-3 pb-3 border-b border-gray-200">
+                <div class="likes">${likes} likes</div>
+                <div class="comments">${comments} comments</div>
             </div>
+
             <div class="flex justify-around border-t border-gray-200 pt-2">
                 <button
-                    class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition">
+                    class="like-btn post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition"
+                    data-post-id="${postId}">
                     <i class="far fa-thumbs-up text-sm"></i>
                     <span class="text-xs">Like</span>
                 </button>
                 <button
-                    class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition">
+                    class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition"
+                    data-post-id="${postId}">
                     <i class="far fa-comment text-sm"></i>
                     <span class="text-xs">Comment</span>
                 </button>
                 <button
-                    class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition">
+                    class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition"
+                    data-post-id="${postId}">
                     <i class="far fa-share-square text-sm"></i>
                     <span class="text-xs">Share</span>
                 </button>
             </div>
         </div>
-    `
+    `;
 }
+
 
 export function lost_found(img, type, item, description, location, datePosted) {
     return `
