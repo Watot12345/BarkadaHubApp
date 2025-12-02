@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>BarkadaHub - Videos</title>
+        <link rel="stylesheet" href="../../dist/output.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </head>
+
+    <body class="bg-gray-50 min-h-screen">
+        <div class="flex w-full h-screen overflow-hidden">
+
+            <!-- Chat Section -->
+            <div class="flex-1 flex flex-col overflow-hidden">
+
+                <!-- Chat Header -->
+                <div class="bg-gray-100 p-4 flex items-center justify-between ">
+                    <div class="flex items-center space-x-3">
+                        <a href="./messages.html" class="fas fa-arrow-left text-black cursor-pointer"></a>
+
+                        <div class="flex items-center space-x-2 cursor-pointer" id="openProfile">
+                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+                                <img src="../images/image.png" class="font-bold text-blue-600">
+                            </div>
+                            <div>
+                                <h2 class="text-black font-semibold">JaseI Guadis</h2>
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 bg-green-400 rounded-full mr-1"></div>
+                                    <span class="text-black text-xs opacity-90">Active</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Body -->
+                <div class="flex-1 p-4 overflow-y-auto bg-linear-to-b from-white to-blue-50">
+
+                    <div class="text-center my-6">
+                        <div class="flex flex-col items-center gap-3">
+                            <div class="w-13 h-13 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                                <img src="../images/image.png">
+                            </div>
+                            <span class="bg-gray-200 text-gray-600 text-xs px-3 py-1 rounded-full ">View Profile</span>
+                        </div>
+
+
+                        <!-- Message 1: Incoming -->
+                        <div class="flex items-start my-4">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                                <img src="../images/image.png">
+                            </div>
+                            <div class="max-w-[70%]">
+                                <div class="bg-gray-100 rounded-2xl rounded-tl-none p-3">
+                                    <p class="text-gray-800 text-sm">best friend ito part ko</p>
+                                    <p class="text-gray-800 text-sm mt-1">beneficence 😊 🌟 :</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Message 4: Outgoing -->
+                        <div class="flex justify-end mb-4">
+                            <div class="max-w-[70%]">
+                                <div class="bg-blue-100 rounded-2xl rounded-tr-none p-3">
+                                    <p class="text-gray-800 text-sm">Cgeh lang welcome</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Message 5: Incoming -->
+                        <div class="flex items-start mb-4">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                                <img src="../images/image.png">
+                            </div>
+                            <div class="max-w-[70%]">
+                                <div class="bg-gray-100 rounded-2xl rounded-tl-none p-3">
+                                    <p class="text-gray-800 text-sm">sasusunod ulit HAHAHA</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Message 6: Typing Indicator -->
+                        <div class="flex items-start mb-4">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                                <img src="../images/image.png">
+                            </div>
+                            <div class="max-w-[70%]">
+                                <div class="bg-gray-100 rounded-2xl rounded-tl-none p-3 w-16">
+                                    <div class="flex space-x-1">
+                                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></div>
+                                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse"
+                                            style="animation-delay: 0.2s"></div>
+                                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse"
+                                            style="animation-delay: 0.4s"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Message Input -->
+                <div class="border-t border-gray-200 p-4 bg-white">
+                    <div class="flex items-center space-x-2">
+                        <div class="flex-1 relative">
+                            <input type="text" placeholder="Type a message..."
+                                class="w-full bg-gray-100 rounded-full py-3 px-4 pr-12 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <button
+                            class="w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-600 flex items-center justify-center">
+                            <i class="fas fa-paper-plane text-white"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </body>
+
+</html>

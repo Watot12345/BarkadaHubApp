@@ -1,13 +1,16 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const conversations = document.querySelectorAll('.conversation');
+document.addEventListener("DOMContentLoaded", () => {
+    const backIcon = document.getElementById("backIcon");
+    if (!backIcon) return;
 
-    conversations.forEach(conversation => {
-        conversation.addEventListener('click', function () {
-            // Remove selected class from all conversations
-            conversations.forEach(c => c.classList.remove('selected'));
+    backIcon.addEventListener("click", (e) => {
+        e.preventDefault();
 
-            // Add selected class to clicked conversation
-            this.classList.add('selected');
-        });
+        const from = localStorage.getItem("messages_from");
+
+        if (from) {
+            window.location.href = from;
+        } else {
+            window.location.href = "./home.html";
+        }
     });
 });
