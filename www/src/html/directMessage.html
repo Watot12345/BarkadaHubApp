@@ -6,82 +6,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>BarkadaHub - Chat</title>
         <link rel="stylesheet" href="../../dist/output.css">
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <style>
-            /* Custom scrollbar */
-            ::-webkit-scrollbar {
-                width: 6px;
-            }
-
-            ::-webkit-scrollbar-track {
-                background: #f1f1f1;
-            }
-
-            ::-webkit-scrollbar-thumb {
-                background: #c1c1c1;
-                border-radius: 10px;
-            }
-
-            ::-webkit-scrollbar-thumb:hover {
-                background: #a1a1a1;
-            }
-
-            /* Message bubble animations */
-            @keyframes slideInLeft {
-                from {
-                    transform: translateX(-10px);
-                    opacity: 0;
-                }
-
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-
-            @keyframes slideInRight {
-                from {
-                    transform: translateX(10px);
-                    opacity: 0;
-                }
-
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-
-            .message-in {
-                animation: slideInLeft 0.3s ease-out;
-            }
-
-            .message-out {
-                animation: slideInRight 0.3s ease-out;
-            }
-
-            /* Typing animation */
-            .typing-dot:nth-child(1) {
-                animation-delay: 0s;
-            }
-
-            .typing-dot:nth-child(2) {
-                animation-delay: 0.2s;
-            }
-
-            .typing-dot:nth-child(3) {
-                animation-delay: 0.4s;
-            }
-        </style>
     </head>
 
     <body class="bg-gray-50 min-h-screen">
-        <div class="flex w-full h-screen overflow-hidden">
+        <div id="alertContainer" class="fixed top-5 right-5 z-40 max-w-md"></div>
+        <div class="flex w-full h-screen overflow-hidden" id="app">
             <!-- Chat Section -->
             <div class="flex-1 flex flex-col overflow-hidden">
                 <!-- Chat Header -->
                 <div class="bg-white border-b border-gray-200 p-4 flex items-center justify-between shadow-sm">
                     <div class="flex items-center space-x-3">
-                        <a href="#"
+                        <a href="./messages.html"
                             class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors">
                             <i class="fas fa-arrow-left text-gray-600"></i>
                         </a>
@@ -89,7 +26,7 @@
                         <div class="flex items-center space-x-3 cursor-pointer group">
                             <div class="relative">
                                 <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-blue-500 shadow-md">
-                                    <img src="https://i.pravatar.cc/150?img=32" alt="JaseI Guadis"
+                                    <img src="../images/image.png" alt="JaseI Guadis"
                                         class="w-full h-full object-cover">
                                 </div>
                                 <div
@@ -110,28 +47,10 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="flex items-center gap-2">
-                        <button
-                            class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
-                            title="Video call">
-                            <i class="fas fa-video text-gray-600"></i>
-                        </button>
-                        <button
-                            class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
-                            title="Voice call">
-                            <i class="fas fa-phone-alt text-gray-600"></i>
-                        </button>
-                        <button
-                            class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
-                            title="More options">
-                            <i class="fas fa-ellipsis-h text-gray-600"></i>
-                        </button>
-                    </div>
                 </div>
 
                 <!-- Chat Body -->
-                <div class="flex-1 p-4 overflow-y-auto bg-gradient-to-b from-white to-blue-50">
+                <div class="flex-1 p-4 overflow-y-auto bg-linear-to-b from-white to-blue-50">
                     <!-- Date Separator -->
                     <div class="flex items-center justify-center my-6">
                         <div class="bg-gray-200 text-gray-700 text-xs px-4 py-1 rounded-full font-medium">
@@ -141,11 +60,9 @@
 
                     <!-- Profile Preview -->
                     <div class="text-center mb-8">
-                        <div
-                            class="inline-flex flex-col items-center gap-3 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                        <div class="inline-flex flex-col items-center gap-3 p-6">
                             <div class="w-20 h-20 rounded-full overflow-hidden border-4 border-blue-100 shadow-lg">
-                                <img src="https://i.pravatar.cc/150?img=32" alt="JaseI Guadis"
-                                    class="w-full h-full object-cover">
+                                <img src="../images/image.png" alt="JaseI Guadis" class="w-full h-full object-cover">
                             </div>
                             <div>
                                 <h3 class="font-bold text-gray-900 text-lg">JaseI Guadis</h3>
@@ -156,22 +73,17 @@
                                     class="text-xs bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium">
                                     View Profile
                                 </button>
-                                <button
-                                    class="text-xs bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors font-medium">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                </button>
                             </div>
                         </div>
                     </div>
 
                     <!-- Messages Container -->
-                    <div class="space-y-4">
+                    <div class="space-y-4" id="messagesContainer">
                         <!-- Incoming Message 1 -->
                         <div class="flex items-start gap-3 message-in">
-                            <div class="flex-shrink-0">
+                            <div class="shrink-0">
                                 <div class="w-8 h-8 rounded-full overflow-hidden">
-                                    <img src="https://i.pravatar.cc/150?img=32" alt="JaseI"
-                                        class="w-full h-full object-cover">
+                                    <img src="../images/image.png" alt="JaseI" class="w-full h-full object-cover">
                                 </div>
                             </div>
                             <div class="max-w-[75%]">
@@ -190,7 +102,7 @@
                         <div class="flex justify-end message-out">
                             <div class="max-w-[75%]">
                                 <div
-                                    class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl rounded-tr-none p-4 shadow-sm">
+                                    class="bg-linear-to-r from-blue-500 to-blue-600 rounded-2xl rounded-tr-none p-4 shadow-sm">
                                     <p class="text-white text-sm leading-relaxed">Cgeh lang welcome</p>
                                     <div class="flex items-center justify-between mt-2">
                                         <span class="text-xs text-blue-100">10:25 AM</span>
@@ -202,10 +114,9 @@
 
                         <!-- Incoming Message 2 -->
                         <div class="flex items-start gap-3 message-in">
-                            <div class="flex-shrink-0">
+                            <div class="shrink-0">
                                 <div class="w-8 h-8 rounded-full overflow-hidden">
-                                    <img src="https://i.pravatar.cc/150?img=32" alt="JaseI"
-                                        class="w-full h-full object-cover">
+                                    <img src="../images/image.png" alt="JaseI" class="w-full h-full object-cover">
                                 </div>
                             </div>
                             <div class="max-w-[75%]">
@@ -221,45 +132,16 @@
 
                         <!-- Incoming Message with Image -->
                         <div class="flex items-start gap-3 message-in">
-                            <div class="flex-shrink-0">
+                            <div class="shrink-0">
                                 <div class="w-8 h-8 rounded-full overflow-hidden">
-                                    <img src="https://i.pravatar.cc/150?img=32" alt="JaseI"
-                                        class="w-full h-full object-cover">
+                                    <img src="../images/image.png" alt="JaseI" class="w-full h-full object-cover">
                                 </div>
                             </div>
                             <div class="max-w-[75%]">
                                 <div class="bg-white rounded-2xl rounded-tl-none p-2 shadow-sm border border-gray-100">
                                     <div class="rounded-xl overflow-hidden mb-2">
-                                        <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
-                                            alt="Shared photo" class="w-full h-48 object-cover">
-                                    </div>
-                                    <p class="text-gray-800 text-sm px-2 pb-1">Check this out! 😊</p>
-                                    <div class="flex items-center justify-between mt-2 px-2">
-                                        <span class="text-xs text-gray-500">10:27 AM</span>
-                                        <div class="flex items-center gap-1">
-                                            <i class="fas fa-heart text-red-400 text-xs"></i>
-                                            <span class="text-xs text-gray-500">2</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Typing Indicator -->
-                        <div class="flex items-start gap-3">
-                            <div class="flex-shrink-0">
-                                <div class="w-8 h-8 rounded-full overflow-hidden">
-                                    <img src="https://i.pravatar.cc/150?img=32" alt="JaseI"
-                                        class="w-full h-full object-cover">
-                                </div>
-                            </div>
-                            <div class="max-w-[75%]">
-                                <div
-                                    class="bg-white rounded-2xl rounded-tl-none p-4 shadow-sm border border-gray-100 w-24">
-                                    <div class="flex space-x-2">
-                                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse typing-dot"></div>
-                                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse typing-dot"></div>
-                                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse typing-dot"></div>
+                                        <img src="../images/ccs.png" alt="Shared photo"
+                                            class="w-full h-48 object-cover">
                                     </div>
                                 </div>
                             </div>
@@ -267,25 +149,28 @@
                     </div>
                 </div>
 
+                <!-- Media Preview Container -->
+                <div id="mediaPreview" class="hidden"></div>
+
                 <!-- Message Input -->
                 <div class="border-t border-gray-200 p-4 bg-white shadow-lg">
-                    <div class="flex items-center gap-3">
-                        <!-- Attachment Button -->
-                        <button
-                            class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
-                            title="Attach file">
-                            <i class="fas fa-paperclip text-gray-600"></i>
-                        </button>
+                    <!-- Media Preview Section -->
+                    <div id="mediaPreviewArea" class="mb-3 hidden">
+                        <div class="relative inline-block max-w-xs">
+                            <div id="previewContainer" class="relative"></div>
+                        </div>
+                    </div>
 
-                        <!-- Emoji Button -->
-                        <button
+                    <div class="flex items-center gap-3">
+                        <!-- Video Button -->
+                        <button id="videoBtn"
                             class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
-                            title="Emoji">
-                            <i class="far fa-smile text-gray-600"></i>
+                            title="Video">
+                            <i class="fas fa-video text-gray-600"></i>
                         </button>
 
                         <!-- Camera Button -->
-                        <button
+                        <button id="cameraBtn"
                             class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
                             title="Camera">
                             <i class="fas fa-camera text-gray-600"></i>
@@ -293,52 +178,25 @@
 
                         <!-- Message Input -->
                         <div class="flex-1 relative">
-                            <input type="text" placeholder="Type a message..."
-                                class="w-full bg-gray-100 rounded-full py-3 px-5 pr-32 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
-
-                            <!-- Quick Actions -->
-                            <div class="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center gap-2">
-                                <button
-                                    class="text-xs bg-gray-200 text-gray-700 px-3 py-1 rounded-full hover:bg-gray-300 transition-colors">
-                                    <i class="fas fa-microphone"></i>
-                                </button>
-                                <button
-                                    class="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full hover:bg-blue-200 transition-colors">
-                                    GIF
-                                </button>
-                            </div>
+                            <input type="text" id="messageInput" placeholder=" Type a message..."
+                                class="w-full bg-gray-100 rounded-full py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
                         </div>
 
                         <!-- Send Button -->
-                        <button
-                            class="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 flex items-center justify-center shadow-lg hover:shadow-xl transition-all"
+                        <button id="sendBtn"
+                            class="w-12 h-12 rounded-full bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 flex items-center justify-center shadow-lg hover:shadow-xl transition-all"
                             title="Send message">
                             <i class="fas fa-paper-plane text-white"></i>
-                        </button>
-                    </div>
-
-                    <!-- Quick Reply Suggestions -->
-                    <div class="flex items-center gap-2 mt-3 overflow-x-auto pb-1">
-                        <button
-                            class="text-xs bg-gray-100 text-gray-700 px-3 py-2 rounded-full hover:bg-gray-200 transition-colors whitespace-nowrap">
-                            Got it, thanks!
-                        </button>
-                        <button
-                            class="text-xs bg-gray-100 text-gray-700 px-3 py-2 rounded-full hover:bg-gray-200 transition-colors whitespace-nowrap">
-                            HAHAHA 😂
-                        </button>
-                        <button
-                            class="text-xs bg-gray-100 text-gray-700 px-3 py-2 rounded-full hover:bg-gray-200 transition-colors whitespace-nowrap">
-                            Sure, let's talk later
-                        </button>
-                        <button
-                            class="text-xs bg-gray-100 text-gray-700 px-3 py-2 rounded-full hover:bg-gray-200 transition-colors whitespace-nowrap">
-                            ❤️
                         </button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div id="offlinePage" class="hidden"></div>
+
+        <script type="module" src="../js/app.js"></script>
+
     </body>
 
 </html>
