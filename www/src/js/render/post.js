@@ -21,7 +21,7 @@ export default function uploadedPost(name, content, file, media_type, postId = 1
             <div class="mb-4">
                 <p class="whitespace-pre-line mb-3">${content}</p>
                 ${file ? `
-                    <div class="media-container mt-3 rounded-lg overflow-hidden bg-gray-100">
+                    <div class="media-container mt-3 rounded-lg overflow-hidden bg-gray-50 ">
                         <div class="media-wrapper flex items-center justify-center max-h-96">
                             ${media_type === "video"
                 ? `<video src="${file}" controls class="w-auto max-w-full h-auto max-h-96 object-contain"></video>`
@@ -32,20 +32,29 @@ export default function uploadedPost(name, content, file, media_type, postId = 1
             }
                         </div>
                         ${media_type === "image" ? `
-                            <div class="image-actions flex justify-center gap-2 p-2 bg-gray-50 border-t">
-                                <button class="view-full-btn text-xs text-gray-600 hover:text-primary px-3 py-1 rounded"
-                                        onclick="viewFullImage('${file}')">
-                                    <i class="fas fa-expand mr-1"></i>View Full
+                            <div
+                                class="media-footer px-3 py-2 bg-gray-100 border-t border-gray-100 flex justify-end">
+                                <button
+                                    class="text-xs text-gray-500 hover:text-primary transition-colors flex items-center gap-1"  onclick="viewFullImage('${file}')">
+                                    <i class="fas fa-expand-alt text-xs"></i>
+                                    <span>View full</span>
                                 </button>
-                            </div>
+                            </div>            
                         ` : ''}
                     </div>
                 ` : ''}
             </div>
 
-            <div class="flex justify-between text-xs text-gray-500 mb-3 pb-3 border-b border-gray-200">
-                <div class="likes">${likes} likes</div>
-                <div class="comments">${comments} comments</div>
+            <div
+                class="flex justify-between text-xs text-gray-500 mb-2 sm:mb-3 pb-2 sm:pb-3 border-b border-gray-100">
+                <div class="flex items-center gap-1">
+                    <i class="fas fa-heart text-red-400"></i>
+                    <span>${likes}</span>
+                </div>
+                <a href="./comments.html" class="flex items-center gap-1">
+                    <i class="fas fa-comment text-blue-400"></i>
+                    <span>${comments}</span>
+                </a>
             </div>
 
             <div class="flex justify-around border-t border-gray-200 pt-2">

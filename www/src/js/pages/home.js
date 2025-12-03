@@ -249,11 +249,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const modal = document.getElementById('fullImageModal');
         const img = document.getElementById('fullImageContent');
 
-        img.src = imageUrl;        // Set the clicked image
-        modal.classList.remove('hidden'); // Show modal
+        img.src = imageUrl;
+        modal.classList.remove('hidden');
     };
 
-    // Close modal when clicking "×"
     document.getElementById('closeFullImage').addEventListener('click', () => {
         const modal = document.getElementById('fullImageModal');
         modal.classList.add('hidden');
