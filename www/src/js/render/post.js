@@ -33,7 +33,7 @@ export default function uploadedPost(name, content, file, media_type, postId = 1
                         </div>
                         ${media_type === "image" ? `
                             <div
-                                class="media-footer px-3 py-2 bg-gray-100 border-t border-gray-100 flex justify-end">
+                                class="media-footer px-3 py-2  border-t border-gray-100 flex justify-end">
                                 <button
                                     class="text-xs text-gray-500 hover:text-primary transition-colors flex items-center gap-1"  onclick="viewFullImage('${file}')">
                                     <i class="fas fa-expand-alt text-xs"></i>

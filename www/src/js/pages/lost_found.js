@@ -6,15 +6,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const alertSystem = new AlertSystem();
 
     // Get logged-in user
-    const { data, error } = await supabaseClient.auth.getUser();
-    const userId = data?.user?.id;
+    const { data: userData, error: userError } = await supabaseClient.auth.getUser();
+    const userId = userData?.user?.id;
 
-    if (error || !data?.user) {
+    if (userError || !userId) {
         alertSystem.show("You must be logged in.", 'error');
         setTimeout(() => window.location.href = '../../index.html', 1500);
         return;
     }
 
+    // ELEMENTS
     const openUploadFormBtn = document.getElementById('openUploadForm');
     const uploadModal = document.getElementById('uploadModal');
     const cancelBtn = document.getElementById('cancelBtn');
@@ -26,44 +27,49 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const displayedItemIds = new Set(); // Track rendered items
 
-    // Open / Close modal
-    openUploadFormBtn.addEventListener('click', () => uploadModal.classList.remove('hidden'));
+    /* ------------------------------
+    MODAL OPEN/CLOSE
+    ------------------------------ */
     const closeModal = () => {
         uploadModal.classList.add('hidden');
         lostFoundForm.reset();
         imagePreview.classList.add('hidden');
     };
+
+    openUploadFormBtn.addEventListener('click', () => uploadModal.classList.remove('hidden'));
     cancelBtn.addEventListener('click', closeModal);
     uploadModal.addEventListener('click', e => { if (e.target === uploadModal) closeModal(); });
 
-    // Image preview
+    /* ------------------------------
+    IMAGE PREVIEW
+    ------------------------------ */
     imageUpload.addEventListener('change', e => {
         const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = e => {
-                previewImg.src = e.target.result;
-                imagePreview.classList.remove('hidden');
-            };
-            reader.readAsDataURL(file);
-        }
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = e => {
+            previewImg.src = e.target.result;
+            imagePreview.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
     });
 
-    // Submit report
+    /* ------------------------------
+    SUBMIT LOST & FOUND REPORT
+    ------------------------------ */
     lostFoundForm.addEventListener('submit', async e => {
         e.preventDefault();
 
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        if (!user) return alertSystem.show("You must be logged in!", 'error');
-
-        const itemType = document.querySelector('input[name="itemType"]:checked').value;
-        const itemName = document.getElementById('itemName').value;
-        const category = document.getElementById('category').value;
-        const description = document.getElementById('description').value;
-        const location = document.getElementById('location').value;
+        const itemType = document.querySelector('input[name="itemType"]:checked')?.value;
+        const itemName = document.getElementById('itemName').value.trim();
+        const category = document.getElementById('category').value.trim();
+        const description = document.getElementById('description').value.trim();
+        const location = document.getElementById('location').value.trim();
         const file = imageUpload.files[0];
 
         let filePath = null;
+
         if (file) {
             const ext = file.name.split('.').pop();
             const fileName = `${userId}-${Date.now()}.${ext}`;
@@ -71,11 +77,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 .storage
                 .from('lost_found')
                 .upload(fileName, file);
+
             if (uploadError) return alertSystem.show("Failed to upload image!", 'error');
             filePath = uploadData.path;
         }
 
-        // Insert row
+        // Insert new lost & found record
         const { data: insertedData, error: insertError } = await supabaseClient
             .from('lost_found')
             .insert([{
@@ -84,28 +91,29 @@ document.addEventListener('DOMContentLoaded', async () => {
                 category,
                 description,
                 location,
-                auth_id: user.id,
+                auth_id: userId,
                 file_name: filePath,
                 created_at: new Date()
             }])
-            .select(); // return inserted row
+            .select();
 
         if (insertError) return alertSystem.show("Failed to submit report!", 'error');
 
         alertSystem.show("Report submitted successfully!", 'success');
         closeModal();
-
-        // Render new report immediately
-        renderLostFoundSingle(insertedData[0], true);
+        renderLostFoundSingle(insertedData[0], true); // Show immediately
     });
 
-    // Render all lost & found items on page load
+    /* ------------------------------
+    RENDER FUNCTIONS
+    ------------------------------ */
     async function renderLostFound() {
         try {
             const { data: items, error } = await supabaseClient
                 .from('lost_found')
                 .select('*')
                 .order('created_at', { ascending: false });
+
             if (error) throw error;
             if (!items) return;
 
@@ -116,7 +124,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Render single item (can prepend or append)
     async function renderLostFoundSingle(item, prepend = false) {
         if (displayedItemIds.has(item.id)) return;
 
@@ -148,7 +155,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         displayedItemIds.add(item.id);
     }
 
+    /* ------------------------------
+    SUPABASE REALTIME
+    ------------------------------ */
+    supabaseClient
+        .channel('lost_found')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'lost_found' }, payload => {
+            renderLostFoundSingle(payload.new, true);
+        })
+
+    /* ------------------------------
+    INITIAL LOAD
+    ------------------------------ */
     renderLostFound();
-
-
 });
