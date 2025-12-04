@@ -10,7 +10,7 @@
     </head>
 
     <body class="bg-gray-50 min-h-screen">
-        <div class="max-w-4xl mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto px-4 py-8" id="app">
             <!-- Header -->
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-10 animate-fade-in">
                 <div class="mb-6 sm:mb-0">
@@ -224,10 +224,6 @@
                         </div>
 
                         <div class="flex items-center gap-4 w-full sm:w-auto">
-                            <button type="button"
-                                class="flex-1 sm:flex-none px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium">
-                                Cancel
-                            </button>
                             <button type="submit"
                                 class="flex-1 sm:flex-none px-6 py-3 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow hover:shadow-md">
                                 <i class="fas fa-save mr-2"></i>
@@ -256,78 +252,10 @@
             </div>
         </div>
 
-        <script>
-            // Avatar upload preview functionality
-            document.getElementById('avatar-upload').addEventListener('change', function (event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        document.getElementById('avatar-preview').src = e.target.result;
+        <div id="offlinePage" class="hidden"></div>
 
-                        // Show a temporary success message
-                        const avatarContainer = document.querySelector('.relative.group');
-                        const successMsg = document.createElement('div');
-                        successMsg.className = 'absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-green-500 text-white text-xs px-3 py-1 rounded-full shadow-lg whitespace-nowrap z-10';
-                        successMsg.textContent = 'Photo updated!';
-                        avatarContainer.appendChild(successMsg);
-
-                        setTimeout(() => {
-                            successMsg.remove();
-                        }, 2000);
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-
-            // Bio character counter
-            const bioTextarea = document.getElementById('bio');
-            const charCount = document.getElementById('char-count');
-
-            function updateCharCount() {
-                const remaining = 500 - bioTextarea.value.length;
-                charCount.textContent = remaining;
-
-                if (remaining < 50) {
-                    charCount.classList.add('text-red-500');
-                    charCount.classList.remove('text-gray-500');
-                } else {
-                    charCount.classList.remove('text-red-500');
-                    charCount.classList.add('text-gray-500');
-                }
-            }
-
-            bioTextarea.addEventListener('input', updateCharCount);
-            updateCharCount(); // Initialize on page load
-
-            // Form submission
-            document.querySelector('form').addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                // Show success toast
-                const toast = document.getElementById('successToast');
-                toast.classList.remove('hidden');
-                toast.classList.remove('translate-y-10', 'opacity-0');
-                toast.classList.add('translate-y-0', 'opacity-100');
-
-                // Auto-hide toast after 5 seconds
-                setTimeout(() => {
-                    toast.classList.add('translate-y-10', 'opacity-0');
-                    setTimeout(() => {
-                        toast.classList.add('hidden');
-                    }, 300);
-                }, 5000);
-            });
-
-            // Close toast button
-            document.getElementById('closeToast').addEventListener('click', function () {
-                const toast = document.getElementById('successToast');
-                toast.classList.add('translate-y-10', 'opacity-0');
-                setTimeout(() => {
-                    toast.classList.add('hidden');
-                }, 300);
-            });
-        </script>
+        <script type="module" src="../js/app.js"></script>
+        <script type="module" src="../js/pages/editProfile.js"></script>
     </body>
 
 </html>
