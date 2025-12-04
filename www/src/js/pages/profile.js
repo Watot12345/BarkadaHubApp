@@ -1,4 +1,7 @@
 import supabaseClient from '../supabase.js';
+import { lost_found } from '../render/post.js';
+import AlertSystem from '../render/Alerts.js';
+
 
 document.addEventListener('DOMContentLoaded', function () {
     const app = document.getElementById('app');

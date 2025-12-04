@@ -1,3 +1,8 @@
+import supabaseClient from '../supabase.js';
+import { lost_found } from '../render/post.js';
+import AlertSystem from '../render/Alerts.js';
+
+
 document.addEventListener('DOMContentLoaded', function () {
     // Function to close all reply inputs
     function closeAllReplyInputs() {
