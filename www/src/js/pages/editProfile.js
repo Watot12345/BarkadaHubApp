@@ -1,4 +1,6 @@
-// Cached DOM elements
+/* -------------------------------------------
+   CACHED DOM ELEMENTS
+------------------------------------------- */
 const avatarUpload = document.getElementById('avatar-upload');
 const avatarPreview = document.getElementById('avatar-preview');
 const bioTextarea = document.getElementById('bio');
@@ -8,20 +10,24 @@ const toast = document.getElementById('successToast');
 const closeToastBtn = document.getElementById('closeToast');
 
 
-// ========== Avatar Upload Preview ==========
+/* -------------------------------------------
+    AVATAR UPLOAD PREVIEW
+------------------------------------------- */
 avatarUpload?.addEventListener('change', e => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = evt => (avatarPreview.src = evt.target.result);
+    reader.onload = evt => avatarPreview.src = evt.target.result;
     reader.readAsDataURL(file);
 });
 
 
-// ========== Bio Character Counter ==========
+/* -------------------------------------------
+    BIO CHARACTER COUNTER
+------------------------------------------- */
 function updateCharCount() {
-    const remaining = 500 - bioTextarea.value.length;
+    const remaining = 500 - (bioTextarea?.value.length || 0);
     charCount.textContent = remaining;
 
     charCount.classList.toggle('text-red-500', remaining < 50);
@@ -29,16 +35,17 @@ function updateCharCount() {
 }
 
 bioTextarea?.addEventListener('input', updateCharCount);
-updateCharCount();
+updateCharCount(); // initialize on page load
 
 
-// ========== Toast Handling ==========
+/* -------------------------------------------
+    TOAST HANDLING
+------------------------------------------- */
 function showToast() {
     toast.classList.remove('hidden', 'translate-y-10', 'opacity-0');
     toast.classList.add('translate-y-0', 'opacity-100');
 
-    // Auto-hide after 5 seconds
-    setTimeout(hideToast, 5000);
+    setTimeout(hideToast, 5000); // auto-hide after 5s
 }
 
 function hideToast() {
@@ -49,8 +56,12 @@ function hideToast() {
 closeToastBtn?.addEventListener('click', hideToast);
 
 
-// ========== Form Submit ==========
+/* -------------------------------------------
+    FORM SUBMIT
+------------------------------------------- */
 form?.addEventListener('submit', e => {
     e.preventDefault();
+
+    // TODO: Add actual form submission logic here (e.g., Supabase or API call)
     showToast();
 });

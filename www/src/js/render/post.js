@@ -57,24 +57,22 @@ export default function uploadedPost(name, content, file, media_type, postId = 1
                 </a>
             </div>
 
-            <div class="flex justify-around border-t border-gray-200 pt-2">
+            <div class="flex justify-around border-t border-gray-100 pt-2">
                 <button
-                    class="like-btn post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition"
-                    data-post-id="${postId}">
-                    <i class="far fa-thumbs-up text-sm"></i>
-                    <span class="text-xs">Like</span>
+                    class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:text-primary hover:bg-gray-50 py-2 sm:py-2.5 rounded-lg transition-all duration-200 group">
+                    <i class="fas fa-heart text-gray-400 group-hover/like:text-red-500"></i>
+                    <span class="text-xs font-medium">Like</span>
                 </button>
                 <button
-                    class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition"
-                    data-post-id="${postId}">
-                    <i class="far fa-comment text-sm"></i>
-                    <span class="text-xs">Comment</span>
+                    class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:text-blue-600 hover:bg-gray-50 py-2 sm:py-2.5 rounded-lg transition-all duration-200 group">
+                    <i
+                        class="fas fa-comment text-gray-400 group-hover/comment:text-primary"></i>
+                    <span class="text-xs font-medium">Comment</span>
                 </button>
                 <button
-                    class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition"
-                    data-post-id="${postId}">
-                    <i class="far fa-share-square text-sm"></i>
-                    <span class="text-xs">Share</span>
+                    class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:text-green-600 hover:bg-gray-50 py-2 sm:py-2.5 rounded-lg transition-all duration-200 group">
+                    <i class="fas fa-share text-gray-400"></i> 
+                    <span class="text-xs font-medium">Share</span>
                 </button>
             </div>
         </div>

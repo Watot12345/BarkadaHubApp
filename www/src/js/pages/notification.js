@@ -2,68 +2,75 @@ import supabaseClient from '../supabase.js';
 import { lost_found } from '../render/post.js';
 import AlertSystem from '../render/Alerts.js';
 
-
-
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
     const markAllReadBtn = document.getElementById('markAllRead');
     const notificationItems = document.querySelectorAll('.notification-item');
     const unreadDots = document.querySelectorAll('.unread-dot');
     const filterButtons = document.querySelectorAll('.notification-filter');
 
-    // Mark all as read functionality
-    markAllReadBtn.addEventListener('click', function () {
-        notificationItems.forEach(item => {
-            item.classList.remove('unread');
-            item.style.backgroundColor = '';
-            item.style.borderLeft = '';
+    /* -------------------------------------------
+    MARK ALL AS READ
+    ------------------------------------------- */
+    if (markAllReadBtn) {
+        markAllReadBtn.addEventListener('click', () => {
+            notificationItems.forEach(item => item.classList.remove('unread'));
+
+            unreadDots.forEach(dot => dot.remove());
+
+            // Update button UI
+            markAllReadBtn.innerHTML = `<i class="fas fa-check"></i> All marked as read`;
+            markAllReadBtn.disabled = true;
+            markAllReadBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            markAllReadBtn.classList.add('bg-gray-400');
         });
+    }
 
-        unreadDots.forEach(dot => {
-            dot.remove();
-        });
-
-        // Show confirmation (optional)
-        markAllReadBtn.innerHTML = '<i class="fas fa-check"></i> All marked as read';
-        markAllReadBtn.disabled = true;
-        markAllReadBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-        markAllReadBtn.classList.add('bg-gray-400');
-    });
-
-    // Filter functionality
+    /* -------------------------------------------
+    FILTER BUTTONS (All, Unread, Friend Requests)
+    ------------------------------------------- */
     filterButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            // Remove active class from all buttons
-            filterButtons.forEach(btn => btn.classList.remove('active', 'border-blue-600', 'text-blue-600'));
-            filterButtons.forEach(btn => btn.classList.add('text-gray-500'));
-
-            // Add active class to clicked button
-            this.classList.add('active', 'border-blue-600', 'text-blue-600');
-            this.classList.remove('text-gray-500');
-
-            // Here you would typically filter notifications based on the selected filter
-            // For demo purposes, we'll just show all
-            notificationItems.forEach(item => {
-                item.style.display = 'block';
+        button.addEventListener('click', () => {
+            // Reset all
+            filterButtons.forEach(btn => {
+                btn.classList.remove('active', 'border-blue-600', 'text-blue-600');
+                btn.classList.add('text-gray-500');
             });
+
+            // Set active
+            button.classList.add('active', 'border-blue-600', 'text-blue-600');
+            button.classList.remove('text-gray-500');
+
+            // Filtering logic placeholder (you can add later)
+            notificationItems.forEach(item => item.style.display = 'block');
         });
     });
 
-    // Individual notification actions
+    /* -------------------------------------------
+    FRIEND REQUEST: CONFIRM
+    ------------------------------------------- */
     document.querySelectorAll('.confirm-friend').forEach(button => {
-        button.addEventListener('click', function () {
-            const notification = this.closest('.notification-item');
+        button.addEventListener('click', () => {
+            const notification = button.closest('.notification-item');
+            if (!notification) return;
+
             notification.style.opacity = '0.6';
-            this.textContent = 'Confirmed';
-            this.disabled = true;
-            this.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-            this.classList.add('bg-gray-400');
+            button.textContent = 'Confirmed';
+            button.disabled = true;
+
+            button.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            button.classList.add('bg-gray-400');
         });
     });
 
+    /* -------------------------------------------
+    FRIEND REQUEST: DELETE
+    ------------------------------------------- */
     document.querySelectorAll('.delete-friend').forEach(button => {
-        button.addEventListener('click', function () {
-            const notification = this.closest('.notification-item');
-            notification.style.display = 'none';
+        button.addEventListener('click', () => {
+            const notification = button.closest('.notification-item');
+            if (notification) {
+                notification.style.display = 'none';
+            }
         });
     });
 });

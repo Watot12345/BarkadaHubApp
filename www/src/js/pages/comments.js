@@ -3,66 +3,82 @@ import { lost_found } from '../render/post.js';
 import AlertSystem from '../render/Alerts.js';
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    // Function to close all reply inputs
+/* -------------------------------------------
+    REPLY INPUT HANDLER
+------------------------------------------- */
+document.addEventListener('DOMContentLoaded', () => {
+
+    /* -------------------------------------------
+        FUNCTION: Close all reply input containers
+    ------------------------------------------- */
     function closeAllReplyInputs() {
         document.querySelectorAll('.reply-input-container').forEach(input => {
             input.classList.remove('active');
         });
     }
 
-    // reply button clicks
-    document.querySelectorAll('.reply-btn').forEach(button => {
-        button.addEventListener('click', function () {
-            const commentId = this.getAttribute('data-comment');
-            const replyId = this.getAttribute('data-reply');
 
-            // Close any open reply inputs first
+    /* -------------------------------------------
+        EVENT: Open reply input
+    ------------------------------------------- */
+    document.querySelectorAll('.reply-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const commentId = button.dataset.comment;
+            const replyId = button.dataset.reply;
+
+            // Close any currently open inputs
             closeAllReplyInputs();
 
-            // Open the correct reply input
-            if (commentId) {
-                const inputId = `reply-input-${commentId}`;
-                document.getElementById(inputId).classList.add('active');
-                document.querySelector(`#${inputId} textarea`).focus();
-            } else if (replyId) {
-                const inputId = `reply-input-${replyId}`;
-                document.getElementById(inputId).classList.add('active');
-                document.querySelector(`#${inputId} textarea`).focus();
+            // Determine the correct input ID
+            const inputId = `reply-input-${commentId || replyId}`;
+            const inputContainer = document.getElementById(inputId);
+            if (inputContainer) {
+                inputContainer.classList.add('active');
+                inputContainer.querySelector('textarea')?.focus();
             }
         });
     });
 
-    // cancel button clicks
+
+    /* -------------------------------------------
+        EVENT: Cancel reply
+    ------------------------------------------- */
     document.querySelectorAll('.cancel-reply-btn').forEach(button => {
-        button.addEventListener('click', function () {
-            const commentId = this.getAttribute('data-comment');
-            const replyId = this.getAttribute('data-reply');
+        button.addEventListener('click', () => {
+            const commentId = button.dataset.comment;
+            const replyId = button.dataset.reply;
 
-            if (commentId) {
-                const inputId = `reply-input-${commentId}`;
-                document.getElementById(inputId).classList.remove('active');
-            } else if (replyId) {
-                const inputId = `reply-input-${replyId}`;
-                document.getElementById(inputId).classList.remove('active');
-            }
+            const inputId = `reply-input-${commentId || replyId}`;
+            const inputContainer = document.getElementById(inputId);
+            inputContainer?.classList.remove('active');
         });
     });
 
-    // post reply button clicks
+
+    /* -------------------------------------------
+        EVENT: Post reply (placeholder)
+        You can add actual reply submission logic here
+    ------------------------------------------- */
     document.querySelectorAll('.post-reply-btn').forEach(button => {
-        button.addEventListener('click', function () {
-            const commentId = this.getAttribute('data-comment');
-            const replyId = this.getAttribute('data-reply');
+        button.addEventListener('click', () => {
+            const commentId = button.dataset.comment;
+            const replyId = button.dataset.reply;
 
-            let textarea;
-            if (commentId) {
-                const inputId = `reply-input-${commentId}`;
-                textarea = document.querySelector(`#${inputId} textarea`);
-            } else if (replyId) {
-                const inputId = `reply-input-${replyId}`;
-                textarea = document.querySelector(`#${inputId} textarea`);
+            const inputId = `reply-input-${commentId || replyId}`;
+            const textarea = document.querySelector(`#${inputId} textarea`);
+
+            if (textarea) {
+                const replyText = textarea.value.trim();
+                if (replyText) {
+                    console.log("Reply submitted:", replyText);
+                    // TODO: Add actual Supabase insert or API call here
+
+                    // Clear and close input after submission
+                    textarea.value = '';
+                    document.getElementById(inputId).classList.remove('active');
+                }
             }
         });
     });
+
 });

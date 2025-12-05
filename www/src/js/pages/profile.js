@@ -2,78 +2,86 @@ import supabaseClient from '../supabase.js';
 import { lost_found } from '../render/post.js';
 import AlertSystem from '../render/Alerts.js';
 
-
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
     const app = document.getElementById('app');
     const logoutBtn = document.getElementById('logoutBtn');
     const logoutModal = document.getElementById('logoutModal');
     const cancelLogout = document.getElementById('cancelLogout');
     const confirmLogout = document.getElementById('confirmLogout');
 
-    // Show logout confirmation modal
-    logoutBtn.addEventListener('click', function () {
+    /* -------------------------------------------
+        LOGOUT MODAL CONTROL
+    ------------------------------------------- */
+
+    const openModal = () => {
         logoutModal.classList.remove('hidden');
         app.classList.add('opacity-50');
-    });
+    };
 
-    // Hide modal when cancel is clicked
-    cancelLogout.addEventListener('click', function () {
+    const closeModal = () => {
         logoutModal.classList.add('hidden');
         app.classList.remove('opacity-50');
+    };
+
+    logoutBtn.addEventListener('click', openModal);
+    cancelLogout.addEventListener('click', closeModal);
+
+    logoutModal.addEventListener('click', e => {
+        if (e.target === logoutModal) closeModal();
     });
 
-    // Handle logout confirmation securely
-    confirmLogout.addEventListener('click', async function () {
-        // Show loading state
-        confirmLogout.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Logging out...';
+    /* -------------------------------------------
+        LOGOUT HANDLING
+    ------------------------------------------- */
+
+    confirmLogout.addEventListener('click', async () => {
+        confirmLogout.innerHTML = `
+            <i class="fas fa-spinner fa-spin mr-2"></i> Logging out...
+        `;
         confirmLogout.disabled = true;
 
         try {
             const { error } = await supabaseClient.auth.signOut();
-
             if (error) throw error;
 
             setTimeout(() => {
                 window.location.href = '../../index.html';
-
             }, 1000);
-        } catch (err) {
-            alert('Logout failed: ' + err.message);
-            console.error(err);
 
-            // Reset button state
+        } catch (err) {
+            console.error(err);
+            alert('Logout failed: ' + err.message);
+
+            // reset button
             confirmLogout.innerHTML = 'Yes, Logout';
             confirmLogout.disabled = false;
-            logoutModal.classList.add('hidden');
-            app.classList.remove('opacity-50');
+
+            closeModal();
         }
     });
 
-    // Close modal when clicking outside
-    logoutModal.addEventListener('click', function (e) {
-        if (e.target === logoutModal) {
-            logoutModal.classList.add('hidden');
-            app.classList.remove('opacity-50');
-        }
-    });
+    /* -------------------------------------------
+        LOAD USER NAME
+    ------------------------------------------- */
 
-    // Load user display name
     async function loadUserName() {
         const { data, error } = await supabaseClient.auth.getUser();
-
-        if (!error && data?.user) {
-            const name = data.user.user_metadata?.display_name || "User";
-
-            const usernameElement = document.getElementById("username");
-            const nameElement = document.getElementById("name");
-            const namepost = document.getElementById("Name_post");
-
-            if (usernameElement) usernameElement.textContent = name;
-            if (nameElement) nameElement.textContent = name;
-            if (namepost) namepost.textContent = name + "'s Posts";
-        } else {
+        if (error || !data?.user) {
             console.log("User not logged in");
+            return;
         }
+
+        const name = data.user.user_metadata?.display_name || "User";
+
+        const elements = {
+            username: document.getElementById("username"),
+            name: document.getElementById("name"),
+            namepost: document.getElementById("Name_post")
+        };
+
+        if (elements.username) elements.username.textContent = name;
+        if (elements.name) elements.name.textContent = name;
+        if (elements.namepost) elements.namepost.textContent = `${name}'s Posts`;
     }
 
     loadUserName();

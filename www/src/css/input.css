@@ -28,7 +28,6 @@
     .text-danger { color: var(--color-danger); }
 
     .border-primary { color: var(--color-primary); }
-    
 }
 
 body{
@@ -133,9 +132,7 @@ input{
     box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 }
 
-
 /* videos */
-
 @keyframes modalSlideUp {
     from {
         transform: translateY(100%);
@@ -192,6 +189,7 @@ input{
 .backdrop-barkadahub-enter {
     animation: fadeIn 0.2s ease-out;
 }
+
 .video-container {
     height: calc(100vh - 80px);
     scroll-snap-type: y mandatory;
@@ -257,7 +255,69 @@ input{
     backdrop-filter: blur(10px);
 }
 
+/* FIXED: Comment section scrolling */
+#commentSection {
+    overscroll-behavior: auto; /* Changed from 'contain' to 'auto' */
+    display: flex;
+    flex-direction: column;
+}
 
+#commentSection > div:nth-child(2) { /* The scrollable body div */
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0; /* Crucial for flex child scrolling */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.comment-section-enter {
+    animation: commentSlideIn 0.3s ease-out;
+}
+
+.comment-section-exit {
+    animation: commentSlideOut 0.3s ease-in;
+}
+
+@keyframes commentSlideIn {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes commentSlideOut {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+.like-comment-animation {
+    animation: likePulse 0.4s ease;
+}
+
+@keyframes likePulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
 
 /* notificatiom */
 .notification-item.unread {
@@ -276,7 +336,6 @@ input{
 }
 
 /* clubs */
-
 .join-btn {
     transition: all 0.3s ease;
 }
@@ -384,7 +443,6 @@ input{
 }
 
 /* comment */
-
 .reply-input-container {
     display: none;
 }
@@ -398,7 +456,6 @@ input{
 }
 
 /* profile */
-
 .logout-btn {
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
     transition: all 0.3s ease;
@@ -409,7 +466,6 @@ input{
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 }
-
 
 /* edit pofile */
 @keyframes fadeIn {
@@ -434,4 +490,11 @@ input{
 
 .avatar-upload:hover {
     transform: scale(1.03);
+}
+
+/* Additional fix for comment modal on mobile */
+@media (max-width: 640px) {
+    #commentSection {
+        height: 85vh;
+    }
 }

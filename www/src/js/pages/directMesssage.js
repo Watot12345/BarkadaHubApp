@@ -3,10 +3,14 @@ import { lost_found } from '../render/post.js';
 import AlertSystem from '../render/Alerts.js';
 
 
-
+/* -------------------------------------------
+    CHAT / MEDIA HANDLER
+------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
 
-    // DOM Elements
+    /* -------------------------------------------
+        DOM ELEMENTS
+    ------------------------------------------- */
     const videoBtn = document.getElementById('videoBtn');
     const cameraBtn = document.getElementById('cameraBtn');
     const messageInput = document.getElementById('messageInput');
@@ -15,81 +19,85 @@ document.addEventListener('DOMContentLoaded', () => {
     const previewContainer = document.getElementById('previewContainer');
     const messagesContainer = document.getElementById('messagesContainer');
 
-    // Current media file
-    let currentMediaFile = null;
-    let currentMediaType = null; // 'image' or 'video'
+    let currentMediaFile = null;   // Currently selected media file
+    let currentMediaType = null;   // 'image' or 'video'
 
-    // Camera button click handler
-    cameraBtn.addEventListener('click', function () {
+
+    /* -------------------------------------------
+        CAMERA BUTTON HANDLER
+    ------------------------------------------- */
+    cameraBtn.addEventListener('click', () => {
         const input = document.createElement('input');
         input.type = 'file';
         input.accept = 'image/*';
         input.capture = 'environment';
 
-        input.onchange = function (e) {
-            if (e.target.files && e.target.files[0]) {
-                const file = e.target.files[0];
-                currentMediaFile = file;
+        input.onchange = (e) => {
+            if (e.target.files?.[0]) {
+                currentMediaFile = e.target.files[0];
                 currentMediaType = 'image';
-                showMediaPreview(file, 'image');
+                showMediaPreview(currentMediaFile, 'image');
             }
         };
 
         input.click();
     });
 
-    // Video button click handler
-    videoBtn.addEventListener('click', function () {
+
+    /* -------------------------------------------
+        VIDEO BUTTON HANDLER
+    ------------------------------------------- */
+    videoBtn.addEventListener('click', () => {
         const input = document.createElement('input');
         input.type = 'file';
         input.accept = 'video/*';
 
-        input.onchange = function (e) {
-            if (e.target.files && e.target.files[0]) {
-                const file = e.target.files[0];
-                currentMediaFile = file;
+        input.onchange = (e) => {
+            if (e.target.files?.[0]) {
+                currentMediaFile = e.target.files[0];
                 currentMediaType = 'video';
-                showMediaPreview(file, 'video');
+                showMediaPreview(currentMediaFile, 'video');
             }
         };
 
         input.click();
     });
 
-    // Show media preview
+
+    /* -------------------------------------------
+        SHOW MEDIA PREVIEW
+    ------------------------------------------- */
     function showMediaPreview(file, type) {
-        // Clear previous preview
-        previewContainer.innerHTML = '';
+        previewContainer.innerHTML = ''; // Clear previous preview
 
-        // Create preview element based on type
+        let mediaElement;
         if (type === 'image') {
-            const img = document.createElement('img');
-            img.src = URL.createObjectURL(file);
-            img.className = 'w-40 h-40 object-cover rounded-lg';
-            previewContainer.appendChild(img);
+            mediaElement = document.createElement('img');
+            mediaElement.src = URL.createObjectURL(file);
+            mediaElement.className = 'w-40 h-40 object-cover rounded-lg';
         } else if (type === 'video') {
-            const video = document.createElement('video');
-            video.src = URL.createObjectURL(file);
-            video.className = 'w-40 h-40 object-cover rounded-lg';
-            video.controls = true;
-            video.muted = true;
-            previewContainer.appendChild(video);
+            mediaElement = document.createElement('video');
+            mediaElement.src = URL.createObjectURL(file);
+            mediaElement.className = 'w-40 h-40 object-cover rounded-lg';
+            mediaElement.controls = true;
+            mediaElement.muted = true;
         }
+        previewContainer.appendChild(mediaElement);
 
-        // Create remove button
+        // Add remove button
         const removeBtn = document.createElement('button');
         removeBtn.className = 'absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition-colors';
         removeBtn.innerHTML = '<i class="fas fa-times text-xs"></i>';
-        removeBtn.onclick = function () {
-            removeMediaPreview();
-        };
+        removeBtn.onclick = removeMediaPreview;
         previewContainer.appendChild(removeBtn);
 
-        // Show preview area
         mediaPreviewArea.classList.remove('hidden');
     }
 
-    // Remove media preview
+
+    /* -------------------------------------------
+        REMOVE MEDIA PREVIEW
+    ------------------------------------------- */
     function removeMediaPreview() {
         previewContainer.innerHTML = '';
         mediaPreviewArea.classList.add('hidden');
@@ -97,54 +105,53 @@ document.addEventListener('DOMContentLoaded', () => {
         currentMediaType = null;
     }
 
-    // Send message handler
-    sendBtn.addEventListener('click', function () {
+
+    /* -------------------------------------------
+        SEND MESSAGE HANDLER
+    ------------------------------------------- */
+    sendBtn.addEventListener('click', () => {
         const messageText = messageInput.value.trim();
 
-        // If there's media or text to send
-        if (currentMediaFile || messageText) {
-            // Create message object
-            const message = {
-                text: messageText,
-                media: currentMediaFile ? {
-                    file: currentMediaFile,
-                    type: currentMediaType,
-                    url: URL.createObjectURL(currentMediaFile)
-                } : null,
-                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                isOutgoing: true
-            };
+        if (!messageText && !currentMediaFile) return; // Nothing to send
 
-            // Add message to UI
-            addMessageToUI(message);
+        const message = {
+            text: messageText,
+            media: currentMediaFile ? {
+                file: currentMediaFile,
+                type: currentMediaType,
+                url: URL.createObjectURL(currentMediaFile)
+            } : null,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            isOutgoing: true
+        };
 
-            // Clear inputs
-            messageInput.value = '';
-            if (currentMediaFile) {
-                removeMediaPreview();
-            }
+        addMessageToUI(message);  // Function to render message in UI
+        messageInput.value = '';
+        if (currentMediaFile) removeMediaPreview();
+        scrollToBottom();
 
-            // Scroll to bottom
-            scrollToBottom();
-
-            // In a real app, you would upload the media to your server here
-            // and send the message through WebSocket or API
-            console.log('Message sent:', message);
-        }
+        console.log('Message sent:', message); // Placeholder: replace with actual API/WebSocket logic
     });
 
 
-    // Scroll to bottom of messages
+    /* -------------------------------------------
+        SCROLL CHAT TO BOTTOM
+    ------------------------------------------- */
     function scrollToBottom() {
         const chatBody = document.querySelector('.overflow-y-auto');
         chatBody.scrollTop = chatBody.scrollHeight;
     }
 
-    // Send message on Enter key (but not Shift+Enter)
-    messageInput.addEventListener('keypress', function (e) {
+
+    /* -------------------------------------------
+        SEND MESSAGE ON ENTER KEY
+        (Shift+Enter for newline)
+    ------------------------------------------- */
+    messageInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             sendBtn.click();
         }
     });
+
 });

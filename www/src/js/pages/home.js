@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const alertSystem = new AlertSystem();
 
     /* -------------------------------------------
-        LOAD USER AND SET PLACEHOLDER
+    LOAD USER
     ------------------------------------------- */
     async function loadUser() {
         const { data, error } = await supabaseClient.auth.getUser();
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     /* -------------------------------------------
-        CHARACTER COUNTER
+    CHARACTER COUNT
     ------------------------------------------- */
     postContent.addEventListener('input', () => {
         charCount.textContent = postContent.value.length;
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     /* -------------------------------------------
-        MEDIA UPLOAD HANDLER
+    MEDIA UPLOAD HANDLER
     ------------------------------------------- */
     function handleMediaUpload(file, type) {
         selectedMedia = { file, type };
@@ -55,13 +55,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const element = type === 'image'
                 ? Object.assign(document.createElement('img'), {
-                    src: e.target.result,
-                    className: 'max-h-64 rounded-lg'
+                    src: e.target.result, className: 'max-h-64 rounded-lg'
                 })
                 : Object.assign(document.createElement('video'), {
-                    src: e.target.result,
-                    controls: true,
-                    className: 'max-h-64 rounded-lg'
+                    src: e.target.result, controls: true, className: 'max-h-64 rounded-lg'
                 });
 
             previewContainer.appendChild(element);
@@ -90,121 +87,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     /* -------------------------------------------
-        SUBMIT / CREATE POST
-    ------------------------------------------- */
-    postForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const { data: userData } = await supabaseClient.auth.getUser();
-        const userId = userData?.user?.id;
-        const userName = userData?.user.user_metadata.display_name;
-
-        if (!userId) return alertSystem.show("You must be logged in.", 'error');
-
-        const loadingId = alertSystem.show("Posting...", 'loading');
-
-        let mediaUrl = null;
-        let mediaType = null;
-
-        // Upload Media
-        if (selectedMedia) {
-            const file = selectedMedia.file;
-            const ext = file.name.split('.').pop();
-            const fileName = `${userId}-${Date.now()}.${ext}`;
-
-            const { error: uploadError } = await supabaseClient
-                .storage
-                .from("post-media")
-                .upload(fileName, file);
-
-            if (uploadError) {
-                alertSystem.hide(loadingId);
-                return alertSystem.show("Media upload failed!", 'error');
-            }
-
-            const { data } = supabaseClient
-                .storage
-                .from("post-media")
-                .getPublicUrl(fileName);
-
-            mediaUrl = data.publicUrl;
-            mediaType = selectedMedia.type;
-        }
-
-        // Insert post
-        const { data: inserted, error } = await supabaseClient
-            .from("posts")
-            .insert({
-                user_id: userId,
-                user_name: userName,
-                content: postContent.value,
-                media_url: mediaUrl,
-                media_type: mediaType
-            })
-            .select();
-
-        alertSystem.hide(loadingId);
-
-        if (error) return alertSystem.show("Failed to publish post!", 'error');
-
-        // Reset form
-        postForm.reset();
-        selectedMedia = null;
-        mediaPreview.classList.add('hidden');
-        charCount.textContent = "0";
-        postButton.disabled = true;
-
-        alertSystem.show("Post created successfully!", 'success');
-    });
-
-    /* -------------------------------------------
-        GET POSTS (ON PAGE LOAD)
-    ------------------------------------------- */
-    async function getPosts() {
-        const { data } = await supabaseClient
-            .from('posts')
-            .select('*')
-            .order("created_at", { ascending: false });
-
-        if (!data) return;
-
-        data.forEach(post => renderPost(post, "beforeend"));
-    }
-
-    /* -------------------------------------------
-        RENDER POST (USED FOR BOTH LOAD + REALTIME)
-    ------------------------------------------- */
-    function renderPost(post, position = "beforeend") {
-        if (displayedPostIds.has(post.id)) return;
-
-        const html = uploadedPost(
-            post.user_name,
-            post.content,
-            post.media_url,
-            post.media_type,
-            post.id
-        );
-
-        postsContainer.insertAdjacentHTML(position, html);
-        displayedPostIds.add(post.id);
-        initEllipsisButtons();
-    }
-
-    /* -------------------------------------------
-        REALTIME LISTENER (NEW POSTS)
-    ------------------------------------------- */
-    supabaseClient
-        .channel('posts')
-        .on(
-            'postgres_changes',
-            { event: 'INSERT', schema: 'public', table: 'posts' },
-            payload => renderPost(payload.new, 'afterbegin')
-        )
-        .subscribe();
-
-
-    /* -------------------------------------------
-        ELLIPSIS MENU INIT (ATTACHES EVENTS TO NEW POSTS)
+    ELLIPSIS MENU INIT
     ------------------------------------------- */
     function initEllipsisButtons() {
         const ellipsisButtons = document.querySelectorAll('.ellipsis-btn');
@@ -235,6 +118,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         cancelDeleteBtn.onclick = hideDeleteConfirmation;
     }
 
+    /* -------------------------------------------
+    DELETE CONFIRMATION
+    ------------------------------------------- */
     function showDeleteConfirmation() {
         const modal = document.getElementById('deleteConfirmationModal');
         const card = modal.querySelector('.delete-card');
@@ -250,7 +136,110 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     /* -------------------------------------------
-        FULL IMAGE VIEW
+    RENDER POST
+    ------------------------------------------- */
+    function renderPost(post, position = "beforeend") {
+        if (!post.id || displayedPostIds.has(post.id)) return;
+
+        const html = uploadedPost(
+            post.user_name,
+            post.content,
+            post.media_url,
+            post.media_type,
+            post.id
+        );
+
+        postsContainer.insertAdjacentHTML(position, html);
+        displayedPostIds.add(post.id);
+
+        initEllipsisButtons();
+    }
+
+    /* -------------------------------------------
+    SUBMIT / CREATE POST
+    ------------------------------------------- */
+    postForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const { data: userData } = await supabaseClient.auth.getUser();
+        const userId = userData?.user?.id;
+        const userName = userData?.user.user_metadata.display_name;
+
+        if (!userId) return alertSystem.show("You must be logged in.", 'error');
+
+        const loadingId = alertSystem.show("Posting...", 'loading');
+
+        let mediaUrl = null;
+        let mediaType = null;
+
+        if (selectedMedia) {
+            const file = selectedMedia.file;
+            const ext = file.name.split('.').pop();
+            const fileName = `${userId}-${Date.now()}.${ext}`;
+
+            const { error: uploadError } = await supabaseClient
+                .storage
+                .from("post-media")
+                .upload(fileName, file);
+
+            if (uploadError) {
+                alertSystem.hide(loadingId);
+                return alertSystem.show("Media upload failed!", 'error');
+            }
+
+            const { data } = supabaseClient
+                .storage
+                .from("post-media")
+                .getPublicUrl(fileName);
+
+            mediaUrl = data.publicUrl;
+            mediaType = selectedMedia.type;
+        }
+
+        // Insert and get inserted row
+        const { data: newPost, error } = await supabaseClient
+            .from("posts")
+            .insert({
+                user_id: userId,
+                user_name: userName,
+                content: postContent.value,
+                media_url: mediaUrl,
+                media_type: mediaType
+            })
+            .select()
+            .single();
+
+        alertSystem.hide(loadingId);
+
+        if (error) return alertSystem.show("Failed to publish post!", 'error');
+
+        renderPost(newPost, "afterbegin");
+
+        // Reset form
+        postForm.reset();
+        selectedMedia = null;
+        mediaPreview.classList.add('hidden');
+        charCount.textContent = "0";
+        postButton.disabled = true;
+
+        alertSystem.show("Post created successfully!", 'success');
+    });
+
+    /* -------------------------------------------
+    GET POSTS
+    ------------------------------------------- */
+    async function getPosts() {
+        const { data } = await supabaseClient
+            .from('posts')
+            .select('*')
+            .order("created_at", { ascending: false });
+
+        if (!data) return;
+        data.forEach(post => renderPost(post, "beforeend"));
+    }
+
+    /* -------------------------------------------
+    FULL IMAGE VIEW
     ------------------------------------------- */
     window.viewFullImage = (url) => {
         const modal = document.getElementById('fullImageModal');
@@ -258,12 +247,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         modal.classList.remove('hidden');
     };
 
-    document.getElementById('closeFullImage').onclick = () =>
-        document.getElementById('fullImageModal').classList.add('hidden');
+    document.getElementById('closeFullImage').onclick =
+        () => document.getElementById('fullImageModal').classList.add('hidden');
 
     /* -------------------------------------------
-        INITIAL LOAD
+    INITIAL LOAD
     ------------------------------------------- */
     loadUser();
     getPosts();
+
 });

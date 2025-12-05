@@ -3,50 +3,90 @@ import { lost_found } from '../render/post.js';
 import AlertSystem from '../render/Alerts.js';
 
 
+/* -------------------------------------------
+    MODAL / TAB / CHAR COUNTER HANDLER
+------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
+
+    /* -------------------------------------------
+        DOM ELEMENTS
+    ------------------------------------------- */
     const clubModal = document.getElementById('clubModal');
     const postContent = document.getElementById('postContent');
     const charCount = document.getElementById('charCount');
 
-    // Open modal
+
+    /* -------------------------------------------
+        OPEN MODAL
+    ------------------------------------------- */
     window.openClubModal = function () {
         clubModal.classList.remove('hidden');
         clubModal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-    }
+        document.body.style.overflow = 'hidden'; // Disable scrolling
+    };
 
-    // Close modal
+
+    /* -------------------------------------------
+        CLOSE MODAL
+    ------------------------------------------- */
     window.closeClubModal = function () {
         clubModal.classList.remove('flex');
         clubModal.classList.add('hidden');
-        document.body.style.overflow = 'auto';
-    }
+        document.body.style.overflow = 'auto'; // Restore scrolling
+    };
 
-    // Switch modal tabs
+
+    /* -------------------------------------------
+        SWITCH MODAL TABS
+    ------------------------------------------- */
     window.switchModalTab = function (tabName) {
-        document.querySelectorAll('.modal-tab-content').forEach(tab => tab.classList.add('hidden'));
+
+        // Hide all tab content
+        document.querySelectorAll('.modal-tab-content')
+            .forEach(tab => tab.classList.add('hidden'));
+
+        // Reset all tabs
         document.querySelectorAll('.modal-tab').forEach(tab => {
             tab.classList.remove('tab-active', 'border-white', 'text-white');
             tab.classList.add('border-transparent', 'text-blue-100');
         });
 
-        document.getElementById(tabName + 'Tab').classList.remove('hidden');
+        // Show selected tab's content
+        document.getElementById(`${tabName}Tab`).classList.remove('hidden');
+
+        // Activate clicked tab button
         const activeTab = document.querySelector(`[onclick="switchModalTab('${tabName}')"]`);
         activeTab.classList.add('tab-active', 'border-white', 'text-white');
         activeTab.classList.remove('border-transparent', 'text-blue-100');
-    }
+    };
 
-    // Close modal when clicking outside
-    clubModal.addEventListener('click', e => { if (e.target === clubModal) closeClubModal(); });
 
-    // Close modal on Escape key
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeClubModal(); });
+    /* -------------------------------------------
+        CLOSE MODAL WHEN CLICKING OUTSIDE
+    ------------------------------------------- */
+    clubModal.addEventListener('click', e => {
+        if (e.target === clubModal) closeClubModal();
+    });
 
-    // Character counter for post textarea
+
+    /* -------------------------------------------
+        CLOSE MODAL WITH ESC KEY
+    ------------------------------------------- */
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeClubModal();
+    });
+
+
+    /* -------------------------------------------
+        CHARACTER COUNTER FOR TEXTAREA
+    ------------------------------------------- */
     if (postContent && charCount) {
         postContent.addEventListener('input', () => {
-            charCount.textContent = postContent.value.length;
-            charCount.classList.toggle('text-red-500', postContent.value.length >= 450);
+            const length = postContent.value.length;
+
+            charCount.textContent = length;
+            charCount.classList.toggle('text-red-500', length >= 450);
         });
     }
+
 });

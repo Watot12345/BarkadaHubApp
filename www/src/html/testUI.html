@@ -10,82 +10,178 @@
     </head>
 
     <body class="bg-primary">
-        <div id="alertContainer" class="fixed top-5 right-5 z-40 max-w-md"></div>
-        <div id="app">
-            <!-- Header video-->
-            <div class="bg-none  py-4 px-4 fixed top-0 w-full z-50">
-                <div class="flex items-center justify-between">
-                    <h1 class="text-white text-xl font-bold" id="videoHeader">Videos</h1>
-                    <div class="flex items-center gap-4">
-                        <button class="text-white">
-                            <i class="fa-solid fa-circle-plus text-xl"></i>
-                        </button>
+        <!DOCTYPE html>
+        <html lang="en">
+
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>BarkadaHub - Videos</title>
+                <link rel="stylesheet" href="../../dist/output.css">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                <style>
+                    /* Comment Modal */
+                    #commentModal {
+                        display: none;
+                    }
+
+                    #commentModal.active {
+                        display: flex;
+                    }
+
+                    /* Video Shrink */
+                    .video-shrink-container {
+                        background: black;
+                        padding: 10px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
+                    /* Comments */
+                    .comment-item {
+                        margin-bottom: 1rem;
+                    }
+
+                    .comment-reply {
+                        margin-left: 3rem;
+                        margin-top: 0.5rem;
+                        border-left: 2px solid #4B5563;
+                        padding-left: 1rem;
+                    }
+                </style>
+            </head>
+
+            <body class="bg-primary">
+
+                <div id="app">
+                    <!-- Header -->
+                    <div class="bg-linear-to-b from-black/70 to-transparent py-4 px-4 fixed top-0 w-full z-40">
+                        <div class="flex items-center justify-between">
+                            <h1 class="text-white text-xl font-bold" id="videoHeader"> Videos</h1>
+                            <div class="flex items-center gap-4">
+                                <button id="openCommentModalBtn"
+                                    class="text-white hover:text-primary transition-colors duration-200">
+                                    Open Comments
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Videos Container -->
+                    <div class="video-barkadahub-container mt-24">
+                        <div class="video-barkadahub-item w-screen h-screen bg-black flex items-center justify-center">
+                            <video class="w-full h-full object-contain" loop muted autoplay>
+                                <source src="../images/vid.mp4" type="video/mp4">
+                            </video>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Videos Container -->
-            <div class="video-container h-screen">
-                <!-- Video 1 -->
-                <div class="video-item relative ">
-                    <video class="video-player w-full h-screen" loop muted autoplay>
-                        <source src="../images/vid.mp4" type="video/mp4" class="object-fit">
-                    </video>
-
-                    <!-- Video Info -->
-                    <div class="video-info">
-                        <div class="flex items-center gap-3">
-                            <div class="profile-avatar rounded-full overflow-hidden">
-                                <img src="../images/image.png" alt="Bazia Fangabin"
-                                    class="w-full h-screen object-cover">
-                            </div>
-                            <div class="text-white">
-                                <h3 class="font-bold text-lg ">Bazia Fangabin</h3>
-                            </div>
-                            <button
-                                class="ml-4 bg-none text-white border border-white px-4 py-1 rounded-full text-sm font-semibold">
-                                Follow
+                <!-- Comment Modal -->
+                <div id="commentModal"
+                    class="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm items-end justify-center flex">
+                    <div
+                        class="w-full max-w-4xl h-5/6 bg-gray-900 rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col">
+                        <!-- Comment Header -->
+                        <div
+                            class="sticky top-0 bg-gray-900 border-b border-gray-800 px-6 py-4 flex justify-between items-center">
+                            <h2 class="text-xl font-bold text-white">Comments</h2>
+                            <button id="closeCommentBtn" class="text-gray-400 hover:text-white">
+                                <i class="fas fa-times"></i>
                             </button>
                         </div>
-                        <p class="text-sm ">Lorem ipsum dolor sit amet. Est molestiae similisae et lismum est
-                            motone
-                            qui eget nihil est cujus voluptatem atterratae eu juici che.
-                        </p>
-                    </div>
 
-                    <!-- Sidebar Actions -->
-                    <div class="video-sidebar">
-                        <div class="action-button">
-                            <div class="action-icon">
-                                <i class="fas fa-heart text-xl"></i>
+                        <!-- Comment List -->
+                        <div class="flex-1 overflow-y-auto p-4 space-y-4">
+                            <!-- Comment 1 -->
+                            <div class="comment-item">
+                                <div class="flex gap-3">
+                                    <div
+                                        class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary flex-shrink-0">
+                                        <img src="../images/image.png" alt="john_doe"
+                                            class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-white text-sm">john_doe <span
+                                                class="text-gray-400 text-xs">2h ago</span></h4>
+                                        <p class="text-white text-sm mb-1">This is an amazing video! Love the content 🔥
+                                        </p>
+                                        <div class="flex items-center gap-4 text-gray-400 text-xs">
+                                            <span><i class="fas fa-heart"></i> 24</span>
+                                            <span>Reply</span>
+                                        </div>
+
+                                        <!-- Reply -->
+                                        <div class="comment-reply">
+                                            <div class="flex gap-3">
+                                                <div
+                                                    class="w-8 h-8 rounded-full overflow-hidden border-2 border-primary flex-shrink-0">
+                                                    <img src="../images/image.png" alt="reply_user"
+                                                        class="w-full h-full object-cover">
+                                                </div>
+                                                <div class="flex-1">
+                                                    <h5 class="font-bold text-white text-sm">reply_user <span
+                                                            class="text-gray-400 text-xs">1h ago</span></h5>
+                                                    <p class="text-white text-sm">Totally agree! This is fire 🔥</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <span class="action-count">2.4K</span>
-                        </div>
-                        <div class="action-button">
-                            <div class="action-icon">
-                                <i class="fas fa-comment text-xl"></i>
+
+                            <!-- Comment 2 -->
+                            <div class="comment-item">
+                                <div class="flex gap-3">
+                                    <div
+                                        class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary flex-shrink-0">
+                                        <img src="../images/image.png" alt="sarah_miller"
+                                            class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-white text-sm">sarah_miller <span
+                                                class="text-gray-400 text-xs">1d ago</span></h4>
+                                        <p class="text-white text-sm mb-1">Can you make more videos like this? This is
+                                            exactly what I needed! 🙌</p>
+                                        <div class="flex items-center gap-4 text-gray-400 text-xs">
+                                            <span><i class="fas fa-heart"></i> 42</span>
+                                            <span>Reply</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <span class="action-count">142</span>
                         </div>
 
-                        <div class="action-button">
-                            <div class="action-icon">
-                                <i class="fas fa-ellipsis-h text-xl"></i>
+                        <!-- Comment Input -->
+                        <div class="sticky bottom-0 bg-gray-900 border-t border-gray-800 p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+                                    <img src="../images/image.png" alt="Current User"
+                                        class="w-full h-full object-cover">
+                                </div>
+                                <input type="text" placeholder="Add a comment..."
+                                    class="flex-1 px-4 py-2 rounded-full bg-gray-800 text-white" disabled>
+                                <button class="text-gray-400" disabled><i class="fas fa-paper-plane"></i></button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="mobileNav"></div>
-        </div>
+                <script>
+                    // Open/close comment modal
+                    const openBtn = document.getElementById('openCommentModalBtn');
+                    const closeBtn = document.getElementById('closeCommentBtn');
+                    const commentModal = document.getElementById('commentModal');
 
-        <div id="offlinePage" class="hidden">
-        </div>
+                    openBtn.addEventListener('click', () => commentModal.classList.add('active'));
+                    closeBtn.addEventListener('click', () => commentModal.classList.remove('active'));
+                </script>
 
+            </body>
 
-        <script type="module" src="../js/app.js"></script>
-        <script type="module" src="../js/pages/videos.js"></script>
+        </html>
+
     </body>
 
 </html>
