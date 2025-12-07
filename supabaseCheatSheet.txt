@@ -1,0 +1,135 @@
+// ----------------------------
+// SUPABASE CHEAT SHEET
+// ----------------------------
+
+import { createClient } from '@supabase/supabase-js'
+
+// ----------------------------
+// 1. Setup
+// ----------------------------
+const supabaseUrl = 'https://your-project.supabase.co'
+const supabaseKey = 'your-public-anon-key'
+const supabase = createClient(supabaseUrl, supabaseKey)
+
+// ----------------------------
+// 2. Database Queries
+// ----------------------------
+
+// SELECT
+const selectUsers = async () => {
+  let { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('status', 'active')
+    .order('created_at', { ascending: false })
+    .limit(10)
+  console.log(data, error)
+}
+
+// INSERT
+const insertUser = async () => {
+  let { data, error } = await supabase
+    .from('users')
+    .insert([{ username: 'John', email: 'john@example.com' }])
+  console.log(data, error)
+}
+
+// UPDATE
+const updateUser = async () => {
+  let { data, error } = await supabase
+    .from('users')
+    .update({ status: 'inactive' })
+    .eq('id', 1)
+  console.log(data, error)
+}
+
+// DELETE
+const deleteUser = async () => {
+  let { data, error } = await supabase
+    .from('users')
+    .delete()
+    .eq('id', 1)
+  console.log(data, error)
+}
+
+// ----------------------------
+// 3. Authentication
+// ----------------------------
+
+// Sign up
+const signUp = async () => {
+  let { user, session, error } = await supabase.auth.signUp({
+    email: 'email@example.com',
+    password: 'password123'
+  })
+  console.log(user, session, error)
+}
+
+// Sign in
+const signIn = async () => {
+  let { user, session, error } = await supabase.auth.signInWithPassword({
+    email: 'email@example.com',
+    password: 'password123'
+  })
+  console.log(user, session, error)
+}
+
+// Sign out
+const signOut = async () => {
+  let { error } = await supabase.auth.signOut()
+  console.log(error)
+}
+
+// Get current user
+const currentUser = async () => {
+  let { data: { user } } = await supabase.auth.getUser()
+  console.log(user)
+}
+
+// ----------------------------
+// 4. Storage
+// ----------------------------
+
+// Upload file
+const uploadFile = async (file) => {
+  let { data, error } = await supabase.storage
+    .from('avatars')
+    .upload('user1/avatar.png', file)
+  console.log(data, error)
+}
+
+// Get public URL
+const getFileUrl = () => {
+  const { data } = supabase.storage
+    .from('avatars')
+    .getPublicUrl('user1/avatar.png')
+  console.log(data.publicUrl)
+}
+
+// Download file
+const downloadFile = async () => {
+  const { data, error } = await supabase.storage
+    .from('avatars')
+    .download('user1/avatar.png')
+  console.log(data, error)
+}
+
+// ----------------------------
+// 5. Realtime
+// ----------------------------
+const subscribeMessages = () => {
+  supabase
+    .channel('public:messages')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
+      console.log('New message:', payload)
+    })
+    .subscribe()
+}
+
+// ----------------------------
+// 6. Tips
+// ----------------------------
+// .single() -> expects exactly 1 row
+// .maybeSingle() -> returns 1 row or null
+// .upsert([{...}]) -> insert or update if exists
+// Filtering: eq, neq, gt, lt, like, ilike
