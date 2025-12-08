@@ -1,4 +1,4 @@
-export default function uploadedPost(name, content, file, media_type, postId = 1, likes = 0, comments = 0) {
+export default function uploadedPost(name, date, content, file, media_type, postId = 1, likes = 0, comments = 0) {
     return `
         <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
             <div class="flex justify-between items-center mb-4">
@@ -8,7 +8,7 @@ export default function uploadedPost(name, content, file, media_type, postId = 1
                     </div>
                     <div>
                         <h4 class="font-medium">${name}</h4>
-                        <span class="text-xs text-gray-500">Just now · <i class="fa-regular fa-user"></i></span>
+                        <span class="text-xs text-gray-500">${date} · <i class="fa fa-user"></i></span>
                     </div>
                 </div>
                 <button class="ellipsis-btn group" data-post-id="${postId}">
@@ -108,7 +108,7 @@ export function lost_found(img, type, item, description, location, datePosted) {
                         <span class="text-gray-700">${location}</span>
                     </span>
                     <span class="flex items-center font-medium">
-                        <i class="fas fa-clock mr-2 text-gray-500"></i> 
+                        <i class="fas fa-calendar mr-2 text-gray-500"></i> 
                         <span class="text-gray-700">${datePosted}</span>
                     </span>
                 </div>

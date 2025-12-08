@@ -136,7 +136,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             fileUrl = storageData.publicUrl;
         }
 
-        const datePosted = new Date(item.created_at).toLocaleString();
+        const datePosted = new Date(item.created_at).toLocaleString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        });
         const postHtml = lost_found(
             fileUrl,
             item.item_type,

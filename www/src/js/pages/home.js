@@ -141,8 +141,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     function renderPost(post, position = "beforeend") {
         if (!post.id || displayedPostIds.has(post.id)) return;
 
+        const relativeTime = formatRelativeTime(post.created_at);
+
         const html = uploadedPost(
             post.user_name,
+            relativeTime,
             post.content,
             post.media_url,
             post.media_type,
@@ -154,6 +157,39 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         initEllipsisButtons();
     }
+
+
+    /* -------------------------------------------
+    calculate the time post
+    ------------------------------------------- */
+    function formatRelativeTime(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diff = (now - date) / 1000;
+
+        if (diff < 5) return "Just now";
+        if (diff < 60) return `${Math.floor(diff)} sec ago`;
+
+        const minutes = diff / 60;
+        if (minutes < 60) return `${Math.floor(minutes)} min ago`;
+
+        const hours = minutes / 60;
+        if (hours < 24) return `${Math.floor(hours)} hour${Math.floor(hours) > 1 ? "s" : ""} ago`;
+
+        const days = hours / 24;
+        if (days < 2) return "Yesterday";
+        if (days < 7) return `${Math.floor(days)} day${Math.floor(days) > 1 ? "s" : ""} ago`;
+
+        return date.toLocaleString('en-US', {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true
+        });
+    }
+
 
     /* -------------------------------------------
     SUBMIT / CREATE POST
@@ -175,12 +211,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (selectedMedia) {
             const file = selectedMedia.file;
             const ext = file.name.split('.').pop();
-            const fileName = `${userId}-${Date.now()}.${ext}`;
+
+            // Create folder using userId
+            const fileName = `${Date.now()}.${ext}`;
+            const filePath = `${userId}/${fileName}`; // <-- the folder is the user id
 
             const { error: uploadError } = await supabaseClient
                 .storage
                 .from("post-media")
-                .upload(fileName, file);
+                .upload(filePath, file);
 
             if (uploadError) {
                 alertSystem.hide(loadingId);
@@ -190,11 +229,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             const { data } = supabaseClient
                 .storage
                 .from("post-media")
-                .getPublicUrl(fileName);
+                .getPublicUrl(filePath);
 
             mediaUrl = data.publicUrl;
             mediaType = selectedMedia.type;
         }
+
 
         // Insert and get inserted row
         const { data: newPost, error } = await supabaseClient
@@ -250,9 +290,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('closeFullImage').onclick =
         () => document.getElementById('fullImageModal').classList.add('hidden');
 
-    /* -------------------------------------------
-    INITIAL LOAD
-    ------------------------------------------- */
+
     loadUser();
     getPosts();
 
