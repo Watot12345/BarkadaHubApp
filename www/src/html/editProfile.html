@@ -37,7 +37,7 @@
                                 <label for="avatar-upload" class="cursor-pointer block">
                                     <div
                                         class="w-24 h-24 rounded-full overflow-hidden border-4 border-white/90 shadow-2xl avatar-upload">
-                                        <img src="../images/image.png" alt="Profile"
+                                        <img src="" alt="Profile"
                                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                                             id="avatar-preview">
                                     </div>
@@ -52,8 +52,8 @@
                             </div>
 
                             <div class="text-center sm:text-left">
-                                <h2 class="text-white text-2xl font-bold">John Dela Cruz</h2>
-                                <p class="text-blue-100 mt-1">@johndc</p>
+                                <h2 class="text-white text-2xl font-bold" id="userName"></h2>
+                                <p class="text-blue-100 mt-1" id="userAt"></p>
                                 <p
                                     class="text-blue-100/80 text-sm mt-2 flex items-center justify-center sm:justify-start gap-2">
                                     <i class="fas fa-user-edit"></i>
@@ -84,7 +84,7 @@
                                 <div class="relative">
                                     <input type="text" id="fullName"
                                         class="w-full px-4 py-3 pl-11 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
-                                        placeholder="Enter your full name" value="John Dela Cruz">
+                                        placeholder="Enter your full name" value="">
                                     <div class="absolute left-3 top-3.5 text-gray-400">
                                         <i class="fas fa-user"></i>
                                     </div>
@@ -99,9 +99,9 @@
                                 <div class="relative">
                                     <input type="email" id="email"
                                         class="w-full px-4 py-3 pl-11 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-gray-50"
-                                        placeholder="Enter your email address" value="john.delacruz@student.edu"
-                                        readonly>
-                                    <div class="absolute left-3 top-3.5 text-gray-400">
+                                        placeholder="Enter your email address" value="" readonly>
+
+                                    <div class=" absolute left-3 top-3.5 text-gray-400">
                                         <i class="fas fa-envelope"></i>
                                     </div>
                                     <div class="absolute right-3 top-3">
@@ -110,6 +110,20 @@
                                     </div>
                                 </div>
                                 <p class="text-xs text-gray-500 mt-2">Email cannot be changed for security reasons</p>
+                            </div>
+
+                            <div>
+                                <label for="location" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Location(Optional) <span class="text-red-500" id="name">*</span>
+                                </label>
+                                <div class="relative">
+                                    <input type="text" id="location"
+                                        class="w-full px-4 py-3 pl-11 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+                                        placeholder="Enter your full name" value="Manila, Philippines">
+                                    <div class="absolute left-3 top-3.5 text-gray-400">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -159,11 +173,11 @@
                                     <select id="yearLevel"
                                         class="w-full px-4 py-3 pl-11 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all appearance-none bg-white">
                                         <option value="">Select your year level</option>
-                                        <option value="1">1st Year</option>
-                                        <option value="2">2nd Year</option>
-                                        <option value="3" selected>3rd Year</option>
-                                        <option value="4">4th Year</option>
-                                        <option value="5">5th Year</option>
+                                        <option value="1st yr">1st Year</option>
+                                        <option value="2nd yr">2nd Year</option>
+                                        <option value="3rd yr" selected>3rd Year</option>
+                                        <option value="4th yr">4th Year</option>
+                                        <option value="5th yr">5th Year</option>
                                         <option value="grad">Graduate</option>
                                     </select>
                                     <div class="absolute left-3 top-3.5 text-gray-400">
@@ -201,7 +215,7 @@
                             <div class="relative">
                                 <textarea id="bio" rows="4"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white resize-none"
-                                    placeholder="Tell everyone about yourself, your interests, and what you're passionate about">BSIT STUDENT | Passionate about web development and UI/UX design. Love collaborating on projects and learning new technologies.</textarea>
+                                    placeholder="Tell everyone about yourself, your interests, and what you're passionate about"></textarea>
                             </div>
 
                             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-3">
@@ -226,11 +240,16 @@
                             </p>
                         </div>
 
-                        <div class="flex items-center gap-4 w-full sm:w-auto">
+                        <div class="flex items-center justify-center gap-4 w-full sm:w-auto">
+                            <a href="./profile.html"
+                                class=" sm:flex-none px-6 py-3 bg-danger text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow hover:shadow-md">
+                                <i class="fas fa-cancel mr-2"></i>
+                                Cancel
+                            </a>
                             <button type="submit"
                                 class="flex-1 sm:flex-none px-6 py-3 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow hover:shadow-md">
                                 <i class="fas fa-save mr-2"></i>
-                                Save Changes
+                                Save
                             </button>
                         </div>
                     </div>

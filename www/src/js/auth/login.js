@@ -11,6 +11,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!loginForm) return;
 
+    /* ------------------------------
+        SANITIZER (prevents XSS)
+    ------------------------------ */
+    function sanitize(str) {
+        return str.replace(/[&<>"'\/]/g, match => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;',
+            '/': '&#x2F;'
+        }[match]));
+    }
+
+    /* ------------------------------
+        PASSWORD SHOW/HIDE
+    ------------------------------ */
     function showPassword() {
         if (!loginPasswordInput || !loginLockIcon) return;
 
@@ -26,21 +43,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     showPassword();
 
+    /* ------------------------------
+        SUBMIT LOGIN REQUEST
+    ------------------------------ */
     loginForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        const loginEmail = loginEmailInput.value.trim();
+        let loginEmail = loginEmailInput.value.trim();
         const loginPassword = loginPasswordInput.value;
 
-        // Empty check
+        // Sanitize inputs
+        loginEmail = sanitize(loginEmail);
+
+        // Required check
         if (!loginEmail || !loginPassword) {
             alertSystem.show('Please fill out all fields', 'error');
             return;
         }
 
-        // Password length check
-        if (loginPassword.length < 6) {
-            alertSystem.show('Password must have at least 6 characters', 'error');
+        // Email format validation
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginEmail)) {
+            alertSystem.show('Invalid email format', 'error');
+            return;
+        }
+
+        // Block script injections
+        if (/<|>|script/i.test(loginEmail)) {
+            alertSystem.show('Invalid characters detected', 'error');
+            return;
+        }
+
+        // Password length
+        if (loginPassword.length < 8) {
+            alertSystem.show('Password must be at least 8 characters', 'error');
             return;
         }
 

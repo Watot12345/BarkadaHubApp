@@ -60,8 +60,9 @@
                                 Address</label>
                             <div class="relative">
                                 <input type="email" id="loginEmail" placeholder="Enter your email" autocomplete="email"
-                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-white/50">
-                                <i class="fas fa-envelope absolute right-3 top-3.5 text-gray-400 text-sm"></i>
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-white/50"
+                                    min="1" max="50" required>
+                                <i class=" fas fa-envelope absolute right-3 top-3.5 text-gray-400 text-sm"></i>
                             </div>
                         </div>
                         <div class="space-y-2">
@@ -70,7 +71,8 @@
                             <div class="relative">
                                 <input type="password" id="loginPassword" placeholder="Enter your password"
                                     autocomplete="current-password"
-                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-white/50">
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-white/50"
+                                    min="1" max="50" required>
                                 <i class="fas fa-lock absolute right-3 top-3.5 text-gray-400 text-sm"
                                     id="loginLockIcon"></i>
                             </div>
@@ -78,7 +80,8 @@
                         <div class="flex items-center justify-between gap-3">
                             <div class="flex items-center">
                                 <input type="checkbox" id="remember"
-                                    class="h-4 w-4 focus:ring-blue-400 border-gray-300 rounded transition duration-200">
+                                    class="h-4 w-4 focus:ring-blue-400 border-gray-300 rounded transition duration-200"
+                                    required>
                                 <label for="remember" class="ml-2 block text-sm text-gray-700">Remember me</label>
                             </div>
                             <a href=""
@@ -115,7 +118,8 @@
                             <div class="relative">
                                 <input type="text" id="signupName" placeholder="Enter your full name"
                                     autocomplete="name"
-                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-white/50">
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-white/50"
+                                    min="1" max="50" required>
                                 <i class="fas fa-user absolute right-3 top-3.5 text-gray-400 text-sm"></i>
                             </div>
                         </div>
@@ -124,7 +128,8 @@
                                 Address</label>
                             <div class="relative">
                                 <input type="email" id="signupEmail" placeholder="Enter your email" autocomplete="email"
-                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-white/50">
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-white/50"
+                                    min="1" max="50" required>
                                 <i class="fas fa-envelope absolute right-3 top-3.5 text-gray-400 text-sm"></i>
                             </div>
                         </div>
@@ -134,8 +139,9 @@
                             <div class="relative">
                                 <input type="password" id="signupPassword" placeholder="Create a password"
                                     autocomplete="new-password"
-                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-white/50">
-                                <i class="fas fa-lock absolute right-3 top-3.5 text-gray-400 text-sm"></i>
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-white/50"
+                                    min="1" max="50" required>
+                                <i class="fas fa-lock absolute right-3 top-3.5 text-gray-400 text-sm lockIcon"></i>
                             </div>
                         </div>
                         <div class="space-y-2">
@@ -144,8 +150,9 @@
                             <div class="relative">
                                 <input type="password" id="signupConfirmPassword" placeholder="Re-enter your password"
                                     autocomplete="new-password"
-                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-white/50">
-                                <i class="fas fa-lock absolute right-3 top-3.5 text-gray-400 text-sm"></i>
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-white/50"
+                                    min="1" max="50" required>
+                                <i class=" fas fa-lock absolute right-3 top-3.5 text-gray-400 text-sm lockIcon"></i>
                             </div>
                         </div>
                         <button type="submit" id="signupBtn"

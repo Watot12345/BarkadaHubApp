@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         const userId = user.id;
-        const userName = user.user_metadata.display_name
+        const userName = user.user_metadata.display_name;
         const userEmail = user.email;
 
         const { data, error } = await supabaseClient
@@ -105,7 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
             .single();
 
         if (error) {
-            alertSystem.show('Error fetching bio', 'error');
+            document.getElementById('userAvatar').src = '../images/defaultAvatar.jpg';
+            alertSystem.show('No data found, edit your profile now!', 'info');
             return;
         }
 
@@ -116,7 +117,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = userEmail || nullData;
         const major = data?.major || nullData;
         const year_level = data?.year_level || nullData;
+        document.getElementById('userAvatar').src = data.avatar_url ?? '../images/defaultAvatar.jpg';
         document.getElementById('displayBio').innerHTML = displayBio(bioText);
+        document.getElementById('location').innerHTML = data.location;
         document.getElementById('PersonalInfo').innerHTML = displayInformation(name, email, major, year_level);
     }
     renderBio();
