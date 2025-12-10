@@ -33,5 +33,3 @@ import './www/src/js/pages/profile.js';
 import './www/src/js/pages/videos.js';
 
 
-npx esbuild bundle-entry.js --bundle --minify --outfile=www/src/js/bundle.js
-javascript-obfuscator www/src/js/bundle.js --output www/src/js/bundle.obf.js --compact true --control-flow-flattening true
