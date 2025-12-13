@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>BarkadaHub - Videos</title>
+        <link rel="stylesheet" href="../../dist/output.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </head>
+
+    <body class="bg-primary">
+        <div id="alertContainer" class="fixed top-5 right-5 z-100 max-w-md"></div>
+
+        <div id="app">
+            <!-- Header -->
+            <div class="bg-linear-to-b from-black/70 to-transparent py-4 px-4 fixed top-0 w-full z-40">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-white text-xl font-bold" id="videoHeader"> Videos</h1>
+                    <div class="flex items-center gap-4">
+                        <button id="openCreateVideoBtn"
+                            class="text-white hover:text-primary transition-colors duration-200">
+                            <i class="fa-solid fa-circle-plus text-2xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Videos Container -->
+            <div class="video-barkadahub-container">
+                <div class="video-barkadahub-container snap-y snap-mandatory overflow-y-scroll h-screen">
+                    <div id="videoContainer"></div>
+                </div>
+
+                <div id="mobileNav"></div>
+            </div>
+
+            <!-- Comment Section Modal -->
+            <div id="commentModal"
+                class="fixed inset-0 z-50 hidden flex items-end sm:items-center justify-center overflow-auto">
+                <div class="fixed inset-0 bg-black/80 backdrop-blur-md"></div>
+
+                <!-- Modal Container -->
+                <div id="commentSection"
+                    class="relative w-full max-w-lg bg-gray-900 rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col h-[85vh] sm:h-auto sm:max-h-[85vh]">
+
+                    <!-- Header -->
+                    <div
+                        class="shrink-0 bg-gray-900 border-b border-gray-800 px-6 py-4 flex items-center justify-between">
+                        <h2 class="text-xl font-bold text-white">Comments <span id="commentCount"
+                                class="text-gray-400 text-base ml-1">142</span></h2>
+                        <button
+                            class="closeCommentBtn text-gray-400 hover:text-white p-2 hover:bg-gray-800 rounded-xl transition-colors duration-200">
+                            <i class="fas fa-times text-lg"></i>
+                        </button>
+                    </div>
+
+                    <div class="flex-1 overflow-y-auto min-h-0 p-4 space-y-6"> <!-- Changed classes -->
+                        <!-- Comment 1 -->
+                        <div class="comment-item">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-full overflow-hidden flex-0">
+                                    <img src="../images/image.png" alt="User" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1">
+                                    <div class="bg-gray-800 rounded-2xl p-3">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <h4 class="font-bold text-white text-sm">@campus_star</h4>
+                                            <span class="text-gray-400 text-xs">2h ago</span>
+                                        </div>
+                                        <p class="text-white text-sm mb-2">This is so relatable! Campus life can be both
+                                            fun
+                                            and challenging at the same time. Keep sharing these moments! 👏</p>
+                                        <div class="flex items-center gap-4">
+                                            <button
+                                                class="comment-like-btn flex items-center gap-1 text-gray-400 hover:text-red-400 transition-colors duration-200">
+                                                <i class="fas fa-heart text-xs"></i>
+                                                <span class="text-xs">243</span>
+                                            </button>
+                                            <button
+                                                class="reply-btn text-gray-400 hover:text-primary text-xs font-medium transition-colors duration-200">Reply</button>
+                                        </div>
+                                    </div>
+                                    <!-- Replies to Comment 1 -->
+                                    <div class="ml-8 mt-3 space-y-3">
+                                        <div class="flex items-start gap-3">
+                                            <div class="w-8 h-8 rounded-full overflow-hidden flex-0">
+                                                <img src="../images/image.png" alt="User"
+                                                    class="w-full h-full object-cover">
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="bg-gray-800/60 rounded-2xl p-3">
+                                                    <div class="flex items-center justify-between mb-1">
+                                                        <h4 class="font-bold text-white text-sm">@study_buddy</h4>
+                                                        <span class="text-gray-400 text-xs">1h ago</span>
+                                                    </div>
+                                                    <p class="text-white text-sm mb-2">Exactly! Especially during finals
+                                                        week 😅 The struggle is real!</p>
+                                                    <div class="flex items-center gap-4">
+                                                        <button
+                                                            class="comment-like-btn flex items-center gap-1 text-gray-400 hover:text-red-400 transition-colors duration-200">
+                                                            <i class="fas fa-heart text-xs"></i>
+                                                            <span class="text-xs">56</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- ... more replies ... -->
+                                    </div>
+                                    <div class="ml-8 mt-3 space-y-3">
+                                        <div class="flex items-start gap-3">
+                                            <div class="w-8 h-8 rounded-full overflow-hidden flex-0">
+                                                <img src="../images/image.png" alt="User"
+                                                    class="w-full h-full object-cover">
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="bg-gray-800/60 rounded-2xl p-3">
+                                                    <div class="flex items-center justify-between mb-1">
+                                                        <h4 class="font-bold text-white text-sm">@study_buddy</h4>
+                                                        <span class="text-gray-400 text-xs">1h ago</span>
+                                                    </div>
+                                                    <p class="text-white text-sm mb-2">Exactly! Especially during finals
+                                                        week 😅 The struggle is real!</p>
+                                                    <div class="flex items-center gap-4">
+                                                        <button
+                                                            class="comment-like-btn flex items-center gap-1 text-gray-400 hover:text-red-400 transition-colors duration-200">
+                                                            <i class="fas fa-heart text-xs"></i>
+                                                            <span class="text-xs">56</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- ... more replies ... -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer / Input -->
+                    <div class="shrink-0 bg-gray-900 border-t border-gray-800 p-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full overflow-hidden flex-0">
+                                <img src="../images/image.png" alt="Current User" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1 relative">
+                                <input type="text" id="commentInput" placeholder="Add a comment..."
+                                    class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-white placeholder-gray-500">
+                                <button id="sendCommentBtn"
+                                    class="absolute right-3 top-3 text-primary hover:text-secondary transition-colors duration-200">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Create Video Modal -->
+            <div id="createVideoModal" class="fixed inset-0 z-50 hidden">
+                <!-- Backdrop -->
+                <div class="backdrop-barkadahub-enter fixed inset-0 bg-black/80 backdrop-blur-md"></div>
+
+                <!-- Modal Content -->
+                <div class="fixed inset-0 overflow-hidden">
+                    <div class="flex min-h-full items-end sm:items-center justify-center p-0 sm:p-4">
+                        <div
+                            class="modal-barkadahub-enter relative w-full max-w-lg bg-gray-900 rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[90vh]">
+                            <!-- Modal Header -->
+                            <div class="sticky top-0 z-10 bg-gray-900 border-b border-gray-800 px-6 py-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h2 class="text-xl font-bold text-white">Create New Video</h2>
+                                        <p class="text-gray-400 text-sm">Share a moment with your campus</p>
+                                    </div>
+                                    <button id="closeCreateModalBtn"
+                                        class="text-gray-400 hover:text-white p-2 hover:bg-gray-800 rounded-xl transition-colors duration-200">
+                                        <i class="fas fa-times text-lg"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Modal Body -->
+                            <div class="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+                                <form id="createVideoForm" class="space-y-6">
+                                    <!-- Video Upload Area -->
+                                    <div class="border-2 border-dashed border-gray-700 rounded-2xl p-8 text-center hover:border-primary transition-all duration-300 cursor-pointer"
+                                        id="videoUploadArea">
+                                        <div class="mb-4">
+                                            <i class="fas fa-video text-4xl text-gray-400"></i>
+                                        </div>
+                                        <h3 class="text-white font-medium mb-2">Upload Video</h3>
+                                        <p class="text-gray-400 text-sm mb-4">Select a video from your device</p>
+                                        <input type="file" id="videoFile" accept="video/*" class="hidden">
+                                        <button type="button" id="selectVideoBtn"
+                                            class="px-6 py-3 bg-primary hover:bg-secondary text-white rounded-xl font-medium transition-colors duration-200">
+                                            Select Video
+                                        </button>
+                                        <p class="text-gray-500 text-xs mt-4">MP4, MOV up to 100MB</p>
+                                    </div>
+
+                                    <!-- Video Preview -->
+                                    <div id="videoPreview" class="hidden">
+                                        <div class="relative rounded-xl overflow-hidden bg-black">
+                                            <video id="videoPreviewPlayer" class="w-full h-64 object-cover"
+                                                controls></video>
+                                            <button type="button" id="removeVideoBtn"
+                                                class="absolute top-3 right-3 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors duration-200">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Caption -->
+                                    <div>
+                                        <label for="videoCaption" class="block text-sm font-medium text-gray-200 mb-2">
+                                            Caption
+                                        </label>
+                                        <textarea id="videoCaption" rows="3"
+                                            placeholder="What's happening? Add a caption..."
+                                            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 resize-none text-white placeholder-gray-500"
+                                            minlength="1" maxlength="100"></textarea>
+                                        <div class="flex justify-between items-center mt-2">
+                                            <p class="text-gray-500 text-xs">Add hashtags to reach more people</p>
+                                            <span class="text-gray-400 text-xs" id="charCount">0/150</span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Modal Footer -->
+                            <div class="sticky bottom-0 z-10 bg-gray-900 border-t border-gray-800 px-6 py-4">
+                                <div class="flex items-center justify-between gap-4">
+                                    <button type="button" id="cancelCreateBtn"
+                                        class="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl font-medium transition-colors duration-200 flex-1">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" form="createVideoForm" id="postVideoBtn" disabled
+                                        class="px-6 py-3 bg-primary hover:bg-secondary text-white rounded-xl font-medium transition-colors duration-200 flex-1 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <i class="fas fa-paper-plane"></i>
+                                        Post Video
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Improved Ellipsis Menu Modal -->
+            <div id="ellipsisMenuModal"
+                class="fixed inset-0  bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+                <div
+                    class="bg-white rounded-2xl shadow-2xl w-full max-w-xs mx-4 transform transition-all duration-200 scale-95 animate-scaleIn">
+                    <div class="p-4">
+                        <!-- Delete Option -->
+                        <button id="deletePostBtn"
+                            class="w-full flex items-center px-4 py-3.5 text-red-600 hover:bg-red-50 hover:text-red-700 rounded-xl transition-all duration-200 group relative overflow-hidden mb-2">
+                            <!-- Animated left accent bar -->
+                            <div
+                                class="absolute left-0 top-0 h-full w-1 bg-red-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300">
+                            </div>
+                            <!-- Icon with hover effect -->
+                            <div class="relative w-8 h-8 flex items-center justify-center mr-3">
+                                <div
+                                    class="absolute inset-0 bg-red-100 rounded-lg group-hover:scale-110 transition-transform duration-200">
+                                </div>
+                                <i class="fas fa-trash-alt text-sm relative z-10"></i>
+                            </div>
+                            <!-- Text -->
+                            <span class="font-medium text-sm">Delete Post</span>
+                            <!-- Chevron indicator -->
+                            <i
+                                class="fas fa-chevron-right ml-auto text-gray-400 text-xs group-hover:translate-x-1 transition-transform duration-200"></i>
+                        </button>
+
+                        <!-- Divider -->
+                        <div class="border-t border-gray-100 mb-4"></div>
+
+                        <!-- Cancel Option -->
+                        <button id="closeEllipsisMenu"
+                            class="w-full flex items-center justify-center px-4 py-3.5 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-all duration-200 font-medium border border-gray-200 hover:border-gray-300 hover:shadow-sm">
+                            <span>Cancel</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confirmation Modal for Deletion -->
+            <div id="deleteConfirmationModal"
+                class="fixed inset-0  bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+                <div
+                    class="delete-card bg-white rounded-2xl shadow-2xl w-full max-w-sm mx-4 transform transition-all duration-200 scale-95">
+                    <div class="p-6">
+                        <!-- Warning Icon -->
+                        <div class="flex justify-center mb-4">
+                            <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
+                                <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+                            </div>
+                        </div>
+
+                        <!-- Confirmation Text -->
+                        <div class="text-center mb-6">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Delete this post?</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                This action cannot be undone. The post will be permanently removed from BarkadaHub.
+                            </p>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col space-y-3">
+                            <button type="button" id="confirmDeleteBtn"
+                                class="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white rounded-xl font-medium transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow">
+                                Delete permanently
+                            </button>
+                            <button type="button" id="cancelDeleteBtn"
+                                class="w-full py-3.5 bg-white border border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 rounded-xl font-medium transition-all duration-200 hover:shadow-sm">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="offlinePage" class="hidden"></div>
+
+
+        <script type="module" src="../js/app.js"></script>
+        <script type="module" src="../js/pages/videos.js"></script>
+    </body>
+
+</html>

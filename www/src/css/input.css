@@ -26,6 +26,8 @@
     .text-success { color: var(--color-success); }
     .text-warning { color: var(--color-warning); }
     .text-danger { color: var(--color-danger); }
+
+    .border-primary { color: var(--color-primary); }
 }
 
 body{
@@ -54,17 +56,444 @@ input{
     border-radius: 10px;
 }
 
+/*home*/
+@keyframes homeFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
 
-.message.sent {
-    align-self: flex-end;
-    background-color: #4361ee;
-    color: white;
-    border-bottom-right-radius: 5px;
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.message.received {
-    align-self: flex-start;
-    background-color: #e9ecef;
-    color: #212529;
-    border-bottom-left-radius: 5px;
+.animate-fadeIn {
+    animation: homeFadeIn 0.3s ease-out;
+}
+
+/* Smooth image loading */
+.image-loading {
+    background: linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 50%, #f3f4f6 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.alert {
+    animation: slideIn 0.3s ease-out;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+}
+
+.alert.hiding {
+    animation: slideOut 0.3s ease-in forwards;
+}
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
+.loading-spinner {
+    border: 2px solid #f3f4f6;
+    border-top: 2px solid #3b82f6;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* profile page */
+.logout-btn {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+/* videos */
+@keyframes modalSlideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.video-barkadahub-container {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+}
+
+.video-barkadahub-item {
+    height: 100vh;
+    scroll-snap-align: start;
+    position: relative;
+}
+
+.video-barkadahub-player {
+    object-fit: cover;
+}
+
+.video-barkadahub-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 30%, transparent 50%);
+}
+
+.video-barkadahub-container::-webkit-scrollbar {
+    display: none;
+}
+
+.video-barkadahub-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.modal-barkadahub-enter {
+    animation: modalSlideUp 0.3s ease-out;
+}
+
+.backdrop-barkadahub-enter {
+    animation: fadeIn 0.2s ease-out;
+}
+
+.video-container {
+    height: calc(100vh - 80px);
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+}
+
+.video-item {
+    height: calc(100vh - 80px);
+    scroll-snap-align: start;
+    position: relative;
+}
+
+.video-player {
+    object-fit: cover;
+}
+
+.video-sidebar {
+    position: absolute;
+    right: 15px;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.video-info {
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    color: white;
+    max-width: 70%;
+}
+
+.profile-avatar {
+    width: 50px;
+    height: 50px;
+    border: 2px solid white;
+}
+
+.action-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+}
+
+.action-count {
+    font-size: 12px;
+    margin-top: 5px;
+    font-weight: 600;
+}
+
+.action-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+/* FIXED: Comment section scrolling */
+#commentSection {
+    overscroll-behavior: auto; /* Changed from 'contain' to 'auto' */
+    display: flex;
+    flex-direction: column;
+}
+
+#commentSection > div:nth-child(2) { /* The scrollable body div */
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0; /* Crucial for flex child scrolling */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.comment-section-enter {
+    animation: commentSlideIn 0.3s ease-out;
+}
+
+.comment-section-exit {
+    animation: commentSlideOut 0.3s ease-in;
+}
+
+@keyframes commentSlideIn {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes commentSlideOut {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+.like-comment-animation {
+    animation: likePulse 0.4s ease;
+}
+
+@keyframes likePulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* notificatiom */
+.notification-item.unread {
+    background-color: #f0f8ff;
+    border-left: 4px solid #3b82f6;
+}
+
+.notification-item:hover {
+    background-color: #f8fafc;
+}
+
+.unread-dot {
+    width: 8px;
+    height: 8px;
+    background: #3b82f6;
+}
+
+/* clubs */
+.join-btn {
+    transition: all 0.3s ease;
+}
+
+.join-btn:hover {
+    transform: translateY(-2px);
+}
+
+@keyframes clubsModalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes backdropFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-backdrop {
+    animation: backdropFadeIn 0.2s ease-out;
+}
+
+.modal-content {
+    animation: clubsModalFadeIn 0.2s ease-out;
+}
+
+/* direct message */
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.message-in {
+    animation: slideInLeft 0.3s ease-out;
+}
+
+.message-out {
+    animation: slideInRight 0.3s ease-out;
+}
+
+/* message */
+.active-chat::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: #3b82f6;
+    border-radius: 0 2px 2px 0;
+}
+
+/* Unread message badge */
+.unread-badge {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.online-status {
+    box-shadow: 0 0 0 2px white;
+}
+
+/* comment */
+.reply-input-container {
+    display: none;
+}
+
+.reply-input-container.active {
+    display: block;
+}
+
+.comment-container {
+    position: relative;
+}
+
+/* profile */
+.logout-btn {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+/* edit pofile */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.avatar-upload {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.avatar-upload:hover {
+    transform: scale(1.03);
+}
+
+/* Additional fix for comment modal on mobile */
+@media (max-width: 640px) {
+    #commentSection {
+        height: 85vh;
+    }
 }

@@ -1,0 +1,175 @@
+import supabaseClient from '../supabase.js';
+import { lost_found } from '../render/post.js';
+import AlertSystem from '../render/Alerts.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const alertSystem = new AlertSystem();
+
+    // Get logged-in user
+    const { data: userData, error: userError } = await supabaseClient.auth.getUser();
+    const userId = userData?.user?.id;
+
+    if (userError || !userId) {
+        alertSystem.show("You must be logged in.", 'error');
+        setTimeout(() => window.location.href = '../../index.html', 1500);
+        return;
+    }
+
+    // ELEMENTS
+    const openUploadFormBtn = document.getElementById('openUploadForm');
+    const uploadModal = document.getElementById('uploadModal');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const lostFoundForm = document.getElementById('lostFoundForm');
+    const imageUpload = document.getElementById('imageUpload');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewImg = document.getElementById('previewImg');
+    const lostFoundContainer = document.getElementById('lostFoundContainer');
+
+    const displayedItemIds = new Set(); // Track rendered items
+
+    /* ------------------------------
+    MODAL OPEN/CLOSE
+    ------------------------------ */
+    const closeModal = () => {
+        uploadModal.classList.add('hidden');
+        lostFoundForm.reset();
+        imagePreview.classList.add('hidden');
+    };
+
+    openUploadFormBtn.addEventListener('click', () => uploadModal.classList.remove('hidden'));
+    cancelBtn.addEventListener('click', closeModal);
+    uploadModal.addEventListener('click', e => { if (e.target === uploadModal) closeModal(); });
+
+    /* ------------------------------
+    IMAGE PREVIEW
+    ------------------------------ */
+    imageUpload.addEventListener('change', e => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = e => {
+            previewImg.src = e.target.result;
+            imagePreview.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+    });
+
+    /* ------------------------------
+    SUBMIT LOST & FOUND REPORT
+    ------------------------------ */
+    lostFoundForm.addEventListener('submit', async e => {
+        e.preventDefault();
+
+        const itemType = document.querySelector('input[name="itemType"]:checked')?.value;
+        const itemName = document.getElementById('itemName').value.trim();
+        const category = document.getElementById('category').value.trim();
+        const description = document.getElementById('description').value.trim();
+        const location = document.getElementById('location').value.trim();
+        const file = imageUpload.files[0];
+
+        let filePath = null;
+
+        if (file) {
+            const ext = file.name.split('.').pop();
+            const fileName = `${userId}-${Date.now()}.${ext}`;
+            const { data: uploadData, error: uploadError } = await supabaseClient
+                .storage
+                .from('lost_found')
+                .upload(fileName, file);
+
+            if (uploadError) return alertSystem.show("Failed to upload image!", 'error');
+            filePath = uploadData.path;
+        }
+
+        // Insert new lost & found record
+        const { data: insertedData, error: insertError } = await supabaseClient
+            .from('lost_found')
+            .insert([{
+                item_type: itemType,
+                item_name: itemName,
+                category,
+                description,
+                location,
+                auth_id: userId,
+                file_name: filePath,
+                created_at: new Date()
+            }])
+            .select();
+
+        if (insertError) return alertSystem.show("Failed to submit report!", 'error');
+
+        alertSystem.show("Report submitted successfully!", 'success');
+        closeModal();
+        renderLostFoundSingle(insertedData[0], true); // Show immediately
+    });
+
+    /* ------------------------------
+    RENDER FUNCTIONS
+    ------------------------------ */
+    async function renderLostFound() {
+        try {
+            const { data: items, error } = await supabaseClient
+                .from('lost_found')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+            if (!items) return;
+
+            lostFoundContainer.innerHTML = '';
+            items.forEach(item => renderLostFoundSingle(item));
+        } catch (err) {
+            console.error("Failed to render lost & found:", err);
+        }
+    }
+
+    async function renderLostFoundSingle(item, prepend = false) {
+        if (displayedItemIds.has(item.id)) return;
+
+        let fileUrl = '';
+        if (item.file_name) {
+            const { data: storageData } = supabaseClient
+                .storage
+                .from('lost_found')
+                .getPublicUrl(item.file_name);
+            fileUrl = storageData.publicUrl;
+        }
+
+        const datePosted = new Date(item.created_at).toLocaleString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        });
+        const postHtml = lost_found(
+            fileUrl,
+            item.item_type,
+            item.item_name,
+            item.description,
+            item.location,
+            datePosted
+        );
+
+        if (prepend) {
+            lostFoundContainer.insertAdjacentHTML("afterbegin", postHtml);
+        } else {
+            lostFoundContainer.insertAdjacentHTML("beforeend", postHtml);
+        }
+
+        displayedItemIds.add(item.id);
+    }
+
+    /* ------------------------------
+    SUPABASE REALTIME
+    ------------------------------ */
+    supabaseClient
+        .channel('lost_found')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'lost_found' }, payload => {
+            renderLostFoundSingle(payload.new, true);
+        })
+
+    /* ------------------------------
+    INITIAL LOAD
+    ------------------------------ */
+    renderLostFound();
+});

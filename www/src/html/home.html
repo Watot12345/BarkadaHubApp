@@ -9,170 +9,277 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
 
-    <body class="bg-gray-200 pb-10">
+    <body class="bg-gray-50 min-h-screen">
+        <!-- for alerts -->
+        <div id="alertContainer" class="fixed top-5 right-5 z-40 max-w-md"></div>
 
         <!-- Main App (shown after login) -->
         <div id="app">
             <div id="header"></div>
 
-            <div class="container mx-auto px-4 mb-10">
-                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                    <!-- Left Sidebar -->
+            <div class="container mx-auto px-3 sm:px-4 mb-10">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
                     <div id="leftSideBar"></div>
 
                     <!-- Main Content Area -->
                     <div class="lg:col-span-2">
                         <!-- Home Page -->
-                        <div class=" border border-gray-300 p-4 rounded-lg shadow-2xl" id="home-page">
-                            <!-- Create Post -->
-                            <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-                                <div class="flex gap-3 mb-4">
-                                    <div class="avatar w-12 h-12 rounded-full bg-gray-200 overflow-hidden">
-                                        <img src="https://i.pravatar.cc/150?img=12" alt="User Avatar"
-                                            class="w-full h-full object-cover">
-                                    </div>
-                                    <textarea placeholder="What's on your mind, Alex?"
-                                        class="flex-1 border border-gray-300 rounded-lg p-3 resize-none focus:outline-none focus:ring-2 focus:ring-primary"
-                                        minlength="0" maxlength="100"></textarea>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <div class="flex gap-4 items-center">
-                                        <button
-                                            class="flex items-center gap-2 text-gray-600 hover:text-primary transition font-medium">
-                                            <i class="fas fa-image text-md"></i>
-                                            <span class="text-xs">Photo</span>
-                                        </button>
-                                        <button
-                                            class="flex items-center gap-2 text-gray-600 hover:text-primary transition font-medium">
-                                            <i class="fas fa-video text-md"></i>
-                                            <span class="text-xs">Video</span>
-                                        </button>
+                        <div class="border border-gray-200 sm:border-gray-300 p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-lg sm:shadow-2xl bg-white"
+                            id="home-page">
+                            <!-- Create Post Form -->
+                            <div class="bg-white rounded-xl shadow-sm p-3 sm:p-4 mb-4 sm:mb-6">
+                                <form id="postForm" class="space-y-3 sm:space-y-4">
+                                    <div class="flex gap-2 sm:gap-3 mb-3 sm:mb-4">
+                                        <div
+                                            class="avatar w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-linear-to-br from-gray-100 to-gray-200 overflow-hidden shrink-0">
+                                            <img src="../images/image.png" alt="User Avatar"
+                                                class="w-full h-full object-cover">
+                                        </div>
+                                        <textarea id="postContent" name="postContent" placeholder="What's on your mind?"
+                                            class="flex-1 border border-gray-200 sm:border-gray-300 rounded-xl p-3 resize-none focus:outline-none focus:ring-2 focus:ring-primary text-sm sm:text-base transition-all duration-200"
+                                            minlength="0" maxlength="500" rows="3"></textarea>
                                     </div>
 
-                                    <div>
-                                        <button
-                                            class="bg-primary py-1 px-3 rounded-lg text-sm text-white hover:bg-secondary transition">Post</button>
+                                    <!-- Character Counter -->
+                                    <div class="text-right text-xs text-gray-500">
+                                        <span id="charCount">0</span>/500
                                     </div>
-                                </div>
 
+                                    <!-- Media Preview -->
+                                    <div id="mediaPreview"
+                                        class="hidden rounded-xl overflow-hidden bg-gray-50 border border-gray-200 p-2 sm:p-3">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="text-sm font-medium text-gray-700">Media Preview</span>
+                                            <button type="button" id="removeMedia"
+                                                class="text-gray-400 hover:text-red-500 transition-colors duration-200 p-1 rounded-full hover:bg-gray-100">
+                                                <i class="fas fa-times text-sm"></i>
+                                            </button>
+                                        </div>
+                                        <div id="previewContainer" class="flex justify-center">
+                                            <!-- preview will be shown here -->
+                                        </div>
+                                    </div>
+
+                                    <!-- Post Options -->
+                                    <div class="flex justify-between items-center pt-2 border-t border-gray-100">
+                                        <div class="flex gap-3 sm:gap-4 items-center">
+                                            <!-- Photo Upload -->
+                                            <label for="photoUpload"
+                                                class="flex items-center gap-2 text-gray-500 hover:text-primary transition-all duration-200 font-medium cursor-pointer group">
+                                                <div
+                                                    class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                                                    <i class="fas fa-image text-sm sm:text-md text-blue-500"></i>
+                                                </div>
+                                                <span class="hidden xs:inline text-xs sm:text-sm">Photo</span>
+                                            </label>
+                                            <input type="file" id="photoUpload" name="photoUpload" accept="image/*"
+                                                class="hidden">
+
+                                            <!-- Video Upload -->
+                                            <label for="videoUpload"
+                                                class="flex items-center gap-2 text-gray-500 hover:text-primary transition-all duration-200 font-medium cursor-pointer group">
+                                                <div
+                                                    class="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center group-hover:bg-purple-100 transition-colors">
+                                                    <i class="fas fa-video text-sm sm:text-md text-purple-500"></i>
+                                                </div>
+                                                <span class="hidden xs:inline text-xs sm:text-sm">Video</span>
+                                            </label>
+                                            <input type="file" id="videoUpload" name="videoUpload" accept="video/*"
+                                                class="hidden">
+                                        </div>
+
+                                        <div>
+                                            <button type="submit" id="postButton"
+                                                class="bg-primary hover:bg-secondary transition-all duration-200 py-2 px-4 sm:px-5 rounded-xl text-sm sm:text-base text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow"
+                                                disabled>
+                                                Post
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
 
                             <!-- All Posts Tab -->
                             <div class="tab-content active" id="all-posts">
-                                <!-- Sample Post 1 -->
-                                <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
-                                    <div class="flex justify-between items-center mb-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="avatar w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                                                <img src="https://i.pravatar.cc/150?img=5" alt="User Avatar"
+                                <!-- posts from user will be here-->
+                                <div id="dynamic-posts"></div>
+
+                                <!-- initial Post by Developers -->
+                                <div
+                                    class="bg-white rounded-xl shadow-sm p-4 sm:p-5 mb-4 sm:mb-6 border border-gray-100 animate-fadeIn">
+                                    <div class="flex justify-between items-center mb-3 sm:mb-4">
+                                        <div class="flex items-center gap-2 sm:gap-3">
+                                            <div
+                                                class="avatar w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-linear-to-br from-blue-100 to-blue-200 overflow-hidden">
+                                                <img src="https://i.pravatar.cc/150?img=1" alt="Developer Avatar"
                                                     class="w-full h-full object-cover">
                                             </div>
                                             <div>
-                                                <h4 class="font-medium">Maria Santos</h4>
-                                                <span class="text-xs text-gray-500">2 hours ago · <i
-                                                        class="fas fa-globe-americas"></i></span>
+                                                <h4 class="font-semibold text-sm sm:text-base">Developer Team</h4>
+                                                <span class="text-xs text-gray-500">Just now · <i
+                                                        class="fas fa-users text-xs"></i></span>
                                             </div>
                                         </div>
-                                        <div class="text-gray-500 cursor-pointer">
-                                            <i class="fas fa-ellipsis-h"></i>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4">
-                                        <p>Just finished my finals! So relieved! Who's up for a study break hangout this
-                                            weekend? 🎉</p>
-                                    </div>
-                                    <div
-                                        class="flex justify-between text-xs text-gray-500 mb-3 pb-3 border-b border-gray-200">
-                                        <div class="likes">125 likes</div>
-                                        <div class="comments">23 comments</div>
-                                    </div>
-                                    <div class="flex justify-around border-t border-gray-200 pt-2">
-                                        <button
-                                            class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition">
-                                            <i class="far fa-thumbs-up text-sm"></i>
-                                            <span class="text-xs">Like</span>
-                                        </button>
-
-                                        <button
-                                            class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition">
-                                            <i class="far fa-comment text-sm"></i>
-                                            <span class="text-xs">Comment</span>
-                                        </button>
-
-                                        <button
-                                            class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition">
-                                            <i class="far fa-share-square text-sm"></i>
-                                            <span class="text-xs">Share</span>
-                                        </button>
                                     </div>
 
-                                </div>
+                                    <div class="mb-3 sm:mb-4">
+                                        <p class="text-gray-800 text-sm sm:text-base leading-relaxed mb-3 sm:mb-4">
+                                            Welcome to BarkadaHub! This is the first post created by the developers.
+                                            Enjoy connecting with your campus community!</p>
 
-                                <!-- Sample Post 2 -->
-                                <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
-                                    <div class="flex justify-between items-center mb-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="avatar w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                                                <img src="https://i.pravatar.cc/150?img=8" alt="User Avatar"
-                                                    class="w-full h-full object-cover">
-                                            </div>
-                                            <div>
-                                                <h4 class="font-medium">Computer Science Club</h4>
-                                                <span class="text-xs text-gray-500">5 hours ago · <i
-                                                        class="fas fa-users"></i></span>
+                                        <div
+                                            class="media-container mt-3 sm:mt-4 rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
+                                            <div
+                                                class="media-content-wrapper flex items-center justify-center min-h-[200px] sm:min-h-[250px] max-h-[400px] sm:max-h-[500px] p-2">
+                                                <img src="../images/ccs.png" alt="Post Image"
+                                                    class="max-w-full max-h-full w-auto h-auto object-fit rounded-lg shadow-sm">
                                             </div>
                                         </div>
-                                        <div class="text-gray-500 cursor-pointer">
-                                            <i class="fas fa-ellipsis-h"></i>
-                                        </div>
                                     </div>
-                                    <div class="mb-4">
-                                        <p>Join us this Friday for our Hackathon 2023! Prizes, food, and coding fun!
-                                            Register now at csclub.edu/events</p>
-                                        <div class="post-image mt-3 rounded-lg overflow-hidden">
-                                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80"
-                                                alt="Hackathon Event" class="w-full h-auto object-cover">
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="flex justify-between text-xs text-gray-500 mb-3 pb-3 border-b border-gray-200">
-                                        <div class="likes">89 likes</div>
-                                        <div class="comments">15 comments</div>
-                                    </div>
-                                    <div class="flex justify-around border-t border-gray-200 pt-2">
-                                        <button
-                                            class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition">
-                                            <i class="far fa-thumbs-up text-sm"></i>
-                                            <span class="text-xs">Like</span>
-                                        </button>
-
-                                        <button
-                                            class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition">
-                                            <i class="far fa-comment text-sm"></i>
-                                            <span class="text-xs">Comment</span>
-                                        </button>
-
-                                        <button
-                                            class="post-action flex-1 flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-100 py-2 rounded-lg transition">
-                                            <i class="far fa-share-square text-sm"></i>
-                                            <span class="text-xs">Share</span>
-                                        </button>
-                                    </div>
-
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Right Sidebar -->
-                        <div id="rightSideBar"></div>
+                            <div id="mobileNav"></div>
+                        </div>
+                    </div>
+
+                    <div id="rightSideBar"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="commentModal" class="hidden">
+            <div class="container mx-auto px-4 py-8 max-w-4xl">
+                <!-- Header -->
+                <header class="mb-5">
+                    <div class="flex gap-1 items-center justify-start">
+                        <button type="button"
+                            class="fa fa-arrow-left text-gray-400 text-xl hover:bg-gray-100 hover:rounded-full p-2"
+                            id="commentBackBtn"></button>
+                        <h1 class="text-3xl font-bold text-gray-900">Comments</h1>
+                    </div>
+                </header>
+
+                <!-- Main Content -->
+                <main class="relative">
+                    <div id="comments"></div>
+                </main>
+
+                <!-- Fixed Add Comment Section - Always at bottom -->
+                <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
+                    <div class="container mx-auto px-4 py-4 max-w-4xl">
+                        <div class="flex gap-4">
+                            <div class="flex-1">
+                                <form id="commentForm">
+                                    <div class="flex items-center gap-3">
+                                        <textarea placeholder="What are your thoughts on this post?"
+                                            class="w-full border border-gray-300 rounded-xl p-4 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition-all"
+                                            rows="1" id="commentInput"></textarea>
+
+                                        <!-- Send Button -->
+                                        <button type="submit" id="sendBtn"
+                                            class="w-12 h-12 rounded-full bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 flex items-center justify-center shadow-lg hover:shadow-xl transition-all"
+                                            title="Send message">
+                                            <i class="fas fa-paper-plane text-white"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Mobile Bottom Navigation -->
-                <div id="mobileNav"></div>
             </div>
+        </div>
 
-            <script type="module" src="../js/app.js"></script>
+        <div id="offlinePage" class="hidden"></div>
+
+        <!-- Improved Ellipsis Menu Modal -->
+        <div id="ellipsisMenuModal"
+            class="fixed inset-0  bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+            <div
+                class="bg-white rounded-2xl shadow-2xl w-full max-w-xs mx-4 transform transition-all duration-200 scale-95 animate-scaleIn">
+                <div class="p-4">
+                    <!-- Delete Option -->
+                    <button id="deletePostBtn"
+                        class="w-full flex items-center px-4 py-3.5 text-red-600 hover:bg-red-50 hover:text-red-700 rounded-xl transition-all duration-200 group relative overflow-hidden mb-2">
+                        <!-- Animated left accent bar -->
+                        <div
+                            class="absolute left-0 top-0 h-full w-1 bg-red-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300">
+                        </div>
+                        <!-- Icon with hover effect -->
+                        <div class="relative w-8 h-8 flex items-center justify-center mr-3">
+                            <div
+                                class="absolute inset-0 bg-red-100 rounded-lg group-hover:scale-110 transition-transform duration-200">
+                            </div>
+                            <i class="fas fa-trash-alt text-sm relative z-10"></i>
+                        </div>
+                        <!-- Text -->
+                        <span class="font-medium text-sm">Delete Post</span>
+                        <!-- Chevron indicator -->
+                        <i
+                            class="fas fa-chevron-right ml-auto text-gray-400 text-xs group-hover:translate-x-1 transition-transform duration-200"></i>
+                    </button>
+
+                    <!-- Divider -->
+                    <div class="border-t border-gray-100 mb-4"></div>
+
+                    <!-- Cancel Option -->
+                    <button id="closeEllipsisMenu"
+                        class="w-full flex items-center justify-center px-4 py-3.5 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-all duration-200 font-medium border border-gray-200 hover:border-gray-300 hover:shadow-sm">
+                        <span>Cancel</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation Modal for Deletion -->
+        <div id="deleteConfirmationModal"
+            class="fixed inset-0  bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+            <div
+                class="delete-card bg-white rounded-2xl shadow-2xl w-full max-w-sm mx-4 transform transition-all duration-200 scale-95">
+                <div class="p-6">
+                    <!-- Warning Icon -->
+                    <div class="flex justify-center mb-4">
+                        <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
+                            <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+                        </div>
+                    </div>
+
+                    <!-- Confirmation Text -->
+                    <div class="text-center mb-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Delete this post?</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            This action cannot be undone. The post will be permanently removed from BarkadaHub.
+                        </p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col space-y-3">
+                        <button type="button" id="confirmDeleteBtn"
+                            class="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white rounded-xl font-medium transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow">
+                            Delete permanently
+                        </button>
+                        <button type="button" id="cancelDeleteBtn"
+                            class="w-full py-3.5 bg-white border border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 rounded-xl font-medium transition-all duration-200 hover:shadow-sm">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Full Image Modal -->
+        <div id="fullImageModal"
+            class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+            <span id="closeFullImage" class="absolute top-5 right-5 text-white text-3xl cursor-pointer">&times;</span>
+            <img id="fullImageContent" src="" alt="Full Image" class="max-w-full max-h-full rounded-lg shadow-lg">
+        </div>
+
+
+        <script type="module" src="../js/app.js"></script>
+        <script type="module" src="../js/pages/home.js"></script>
     </body>
 
 </html>

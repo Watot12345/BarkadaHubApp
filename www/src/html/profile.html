@@ -9,11 +9,13 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
 
-    <body class="bg-gray-200 pb-10">
+    <body class="bg-gray-200 ">
+
+        <div id="alertContainer" class="fixed top-5 right-5 z-40 max-w-md"></div>
+
         <div id="app">
             <div id="header"></div>
-
-            <div class="container mx-auto px-4 mb-10">
+            <div class="container mx-auto px-4" id="pageContent">
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                     <!-- Left Sidebar -->
                     <div id="leftSideBar"></div>
@@ -30,15 +32,16 @@
                                 </div>
                                 <div class="p-6 relative">
                                     <div
-                                        class="profile-avatar w-24 h-24 rounded-full border-4 border-white absolute -top-12 left-6 overflow-hidden bg-gray-200">
-                                        <img src="https://i.pravatar.cc/150?img=12" alt="User Avatar"
-                                            class="w-full h-full object-cover">
+                                        class="w-24 h-24 rounded-full border-4 border-white absolute -top-12 left-1/2 -translate-x-1/2 overflow-hidden bg-gray-200">
+                                        <img src="" alt="User Avatar" class="w-full h-full object-cover"
+                                            id="userAvatar">
                                     </div>
-                                    <div class="profile-details mt-12 md:mt-0 md:ml-32">
-                                        <h1 class="text-2xl font-bold mb-1">Alex Johnson</h1>
+
+                                    <div class="profile-details  md:mt-0 md:ml-32">
+                                        <h1 class="text-2xl font-bold mb-1 mt-5" id="username"></h1>
                                         <p class="text-gray-600 mb-2">Computer Science Major · Class of 2024</p>
-                                        <p class="text-gray-600 mb-4"><i class="fas fa-map-marker-alt mr-1"></i> Manila,
-                                            Philippines</p>
+                                        <p class="text-gray-600 mb-4"><i class="fas fa-map-marker-alt mr-1"></i><span
+                                                id="location"></span></p>
 
                                         <div class="profile-stats flex gap-6 mb-4">
                                             <div class="stat text-center">
@@ -56,56 +59,260 @@
                                         </div>
 
                                         <div class="profile-actions flex gap-3">
-                                            <button
-                                                class="primary-btn bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-secondary transition">Edit
-                                                Profile</button>
-                                            <button
-                                                class="secondary-btn bg-white text-primary border border-primary px-4 py-2 rounded-lg font-medium hover:bg-gray-50 transition">Share
-                                                Profile</button>
+                                            <a href="editProfile.html" class="primary-btn bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600
+                                                transition">
+                                                <i class="fas fa-edit mr-2"></i>Edit Profile
+                                            </a>
+                                            <button id="logoutBtn"
+                                                class="logout-btn text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 shadow-md">
+                                                <i class="fas fa-sign-out-alt"></i>Logout
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="bg-white rounded-lg shadow-sm p-5">
-                                <h3 class="text-lg font-bold text-primary mb-4">Alex's Posts</h3>
 
-                                <div class="post bg-white rounded-lg border border-gray-200 p-4 mb-4">
-                                    <div class="flex justify-between items-center mb-3">
-                                        <div class="flex items-center gap-3">
-                                            <div class="avatar w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                                                <img src="https://i.pravatar.cc/150?img=12" alt="User Avatar"
-                                                    class="w-full h-full object-cover">
+                            <!-- Profile Information Card -->
+                            <div
+                                class="bg-white rounded-xl shadow-lg p-6 mb-8 transition-all duration-300 hover:shadow-xl">
+                                <div class="flex items-center gap-4 mb-8">
+                                    <div
+                                        class="bg-linear-to-br from-blue-100 to-indigo-100 w-12 h-12 rounded-xl flex items-center justify-center shadow-sm">
+                                        <i class="fas fa-user-circle text-xl text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-gray-900">Profile Information</h3>
+                                        <p class="text-gray-500 text-sm">Personal and academic details</p>
+                                    </div>
+                                </div>
+
+                                <!-- Information Grid -->
+                                <div id="PersonalInfo"></div>
+
+                                <!-- Bio Section -->
+                                <div id="displayBio"></div>
+
+                                <!-- Footer Actions -->
+                                <div
+                                    class="flex flex-col sm:flex-row items-center justify-between pt-6 border-t border-gray-200">
+                                    <div class="flex items-center gap-3 text-gray-500 mb-4 sm:mb-0">
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-history text-sm"></i>
+                                            <span class="text-sm">Last updated: Today, 2:30 PM</span>
+                                        </div>
+                                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse" title="Online">
+                                        </div>
+                                    </div>
+                                    <a href="editProfile.html"
+                                        class="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                        <i class="fas fa-edit"></i>
+                                        Edit Full Profile
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Recent Activity Card -->
+                            <div class="bg-white rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl">
+                                <div class="flex items-center justify-between mb-8">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-gray-900">Recent Activity</h3>
+                                        <p class="text-gray-500 text-sm">Posts and interactions</p>
+                                    </div>
+                                </div>
+
+                                <!-- Activity Feed -->
+                                <div class="space-y-6">
+                                    <!-- Post 1 -->
+                                    <div
+                                        class="bg-white rounded-xl border border-gray-200 p-5 hover:border-primary/30 hover:shadow-md transition-all duration-300 group">
+                                        <div class="flex items-start justify-between mb-4">
+                                            <div class="flex items-center gap-3">
+                                                <div class="relative">
+                                                    <div
+                                                        class="w-12 h-12 rounded-full border-2 border-white shadow-md overflow-hidden">
+                                                        <img src="../images/image.png" alt="John Dela Cruz"
+                                                            class="w-full h-full object-cover">
+                                                    </div>
+                                                    <div
+                                                        class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 border-2 border-white rounded-full">
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <h4 class="font-bold text-gray-900">John Dela Cruz</h4>
+                                                    <div class="flex items-center gap-2 text-sm text-gray-500">
+                                                        <span>2 days ago</span>
+                                                        <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                                                        <i class="fas fa-globe-americas text-xs"></i>
+                                                        <span>Public</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <h4 class="font-medium">Alex Johnson</h4>
-                                                <span class="text-xs text-gray-500">2 days ago · <i
-                                                        class="fas fa-globe-americas"></i></span>
+                                            <button
+                                                class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
+                                                aria-label="More options">
+                                                <i class="fas fa-ellipsis-h"></i>
+                                            </button>
+                                        </div>
+
+                                        <div class="mb-5">
+                                            <p class="text-gray-800 mb-3 text-lg">
+                                                Just submitted my final project for Data Structures! Feeling
+                                                accomplished 🎉
+                                                The journey through algorithms and data structures has been challenging
+                                                but incredibly rewarding.
+                                            </p>
+
+                                        </div>
+
+                                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                                            <div class="flex items-center gap-6">
+                                                <button
+                                                    class="flex items-center gap-2 text-gray-600 hover:text-red-600 transition-colors duration-200 group/like">
+                                                    <i
+                                                        class="fas fa-heart text-gray-400 group-hover/like:text-red-500"></i>
+                                                    <span class="font-medium">42</span>
+                                                </button>
+                                                <button
+                                                    class="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors duration-200 group/comment">
+                                                    <i
+                                                        class="fas fa-comment text-gray-400 group-hover/comment:text-primary"></i>
+                                                    <span class="font-medium">8</span>
+                                                </button>
+                                                <button
+                                                    class="flex items-center gap-2 text-gray-600 hover:text-green-600 transition-colors duration-200">
+                                                    <i class="fas fa-share text-gray-400"></i>
+                                                    <span class="font-medium">Share</span>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <p>Just submitted my final project for Data Structures! Feeling accomplished 🎉
-                                        </p>
-                                    </div>
-                                    xs <div class="flex justify-between text-sm text-gray-500">
-                                        <div class="likes text-xs">42 likes <div class="comments">8 comments</div>
+
+                                    <!-- Post 2 -->
+                                    <div
+                                        class="bg-white rounded-xl border border-gray-200 p-5 hover:border-primary/30 hover:shadow-md transition-all duration-300 group">
+                                        <div class="flex items-start justify-between mb-4">
+                                            <div class="flex items-center gap-3">
+                                                <div class="relative">
+                                                    <div
+                                                        class="w-12 h-12 rounded-full border-2 border-white shadow-md overflow-hidden">
+                                                        <img src="../images/image.png" alt="John Dela Cruz"
+                                                            class="w-full h-full object-cover">
+                                                    </div>
+                                                    <div
+                                                        class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 border-2 border-white rounded-full">
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <h4 class="font-bold text-gray-900">John Dela Cruz</h4>
+                                                    <div class="flex items-center gap-2 text-sm text-gray-500">
+                                                        <span>1 week ago</span>
+                                                        <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                                                        <i class="fas fa-users text-xs text-primary"></i>
+                                                        <span>IT Club</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button
+                                                class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
+                                                aria-label="More options">
+                                                <i class="fas fa-ellipsis-h"></i>
+                                            </button>
+                                        </div>
+
+                                        <div class="mb-5">
+                                            <p class="text-gray-800 mb-4 text-lg">
+                                                Had an amazing time at the campus tech fair today! So many innovative
+                                                projects from fellow students.
+                                                The AI-powered campus navigation system was particularly impressive!
+                                            </p>
+
+                                            <div
+                                                class="rounded-xl overflow-hidden mb-3 shadow-sm hover:shadow-md transition-shadow duration-300">
+                                                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                                    alt="Campus tech fair with students presenting projects"
+                                                    class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105">
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                                            <div class="flex items-center gap-6">
+                                                <button
+                                                    class="flex items-center gap-2 text-gray-600 hover:text-red-600 transition-colors duration-200 group/like">
+                                                    <i
+                                                        class="fas fa-heart text-gray-400 group-hover/like:text-red-500"></i>
+                                                    <span class="font-medium">128</span>
+                                                </button>
+                                                <button
+                                                    class="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors duration-200 group/comment">
+                                                    <i
+                                                        class="fas fa-comment text-gray-400 group-hover/comment:text-primary"></i>
+                                                    <span class="font-medium">24</span>
+                                                </button>
+                                                <button
+                                                    class="flex items-center gap-2 text-gray-600 hover:text-green-600 transition-colors duration-200">
+                                                    <i class="fas fa-share text-gray-400"></i>
+                                                    <span class="font-medium">Share</span>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+
+                                <!-- View More Button -->
+                                <div class="mt-8 text-center">
+                                    <a href="#more-posts"
+                                        class="inline-flex items-center gap-2 bg-linear-to-r from-gray-100 to-gray-200 text-gray-800 px-6 py-3 rounded-xl font-medium hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group">
+                                        <i class="fas fa-plus"></i>
+                                        Load More Activities
+                                        <i
+                                            class="fas fa-chevron-down ml-2 group-hover:translate-y-1 transition-transform duration-300"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Right Sidebar -->
-                        <div id="rightSideBar"></div>
                     </div>
+                    <!-- Right Sidebar -->
+                    <div id="rightSideBar"></div>
                 </div>
             </div>
             <!-- Mobile Bottom Navigation -->
             <div id="mobileNav"></div>
         </div>
 
+        <div id="offlinePage" class="hidden">
+        </div>
+
+        <!-- Logout Confirmation Modal -->
+        <div class="p-10 shadow-2xl">
+            <div id="logoutModal" class="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-lg shadow-xl p-6 max-w-sm mx-4">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-sign-out-alt text-red-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800">Logout</h3>
+                            <p class="text-gray-600 text-sm">Are you sure you want to logout?</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-3 mt-6">
+                        <button id="cancelLogout"
+                            class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition">
+                            Cancel
+                        </button>
+                        <button id="confirmLogout"
+                            class="px-4 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition">
+                            Yes, Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <script type="module" src="../js/app.js"></script>
+        <script type="module" src="../js/pages/profile.js"></script>
     </body>
 
 </html>
