@@ -1,25 +1,17 @@
 import supabaseClient from '../supabase.js';
-import { lost_found } from '../render/post.js';
 import AlertSystem from '../render/Alerts.js';
 
-/* -------------------------------------------
-    MAIN SCRIPT - RUNS AFTER DOM IS READY
-------------------------------------------- */
 document.addEventListener('DOMContentLoaded', async () => {
-
-    /* -------------------------------------------
-        CHECK USER LOGIN
-    ------------------------------------------- */
     const alertSystem = new AlertSystem();
 
+    /* -------------------------------
+       CHECK USER LOGIN
+    ------------------------------- */
     try {
         const { data, error } = await supabaseClient.auth.getUser();
-
         if (error || !data?.user) {
             alertSystem.show("You must be logged in.", "error");
-            setTimeout(() => {
-                window.location.href = "../../index.html";
-            }, 1500);
+            setTimeout(() => window.location.href = "../../index.html", 1500);
             return;
         }
     } catch (err) {
@@ -28,112 +20,170 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    /* -------------------------------------------
-        ELEMENT REFERENCES
-    ------------------------------------------- */
+    /* -------------------------------
+       ELEMENT REFERENCES
+    ------------------------------- */
     const modal = document.getElementById("createClubModal");
     const openBtn = document.getElementById("openCreateClubBtn");
     const closeBtn = document.getElementById("closeModalBtn");
     const cancelBtn = document.getElementById("cancelBtn");
+    const createClubForm = document.getElementById("createClubForm");
 
     const uploadImageBtn = document.getElementById("uploadImageBtn");
     const inputClubPicture = document.getElementById("clubPicture");
-
     const emptyPreview = document.getElementById("emptyPreviewContainer");
     const previewContainer = document.getElementById("imagePreviewContainer");
     const imagePreview = document.getElementById("imagePreview");
     const removeImageBtn = document.getElementById("removeImageBtn");
-
     const fileNameWrapper = document.getElementById("fileName");
     const fileNameText = document.getElementById("fileNameText");
 
-    /* -------------------------------------------
-        MODAL CONTROL FUNCTIONS
-    ------------------------------------------- */
+    /* -------------------------------
+       MODAL FUNCTIONS
+    ------------------------------- */
     const openModal = () => {
+        if (!modal) return;
         modal.classList.remove("hidden");
-        document.body.style.overflow = "hidden"; // Lock scroll
+        document.body.style.overflow = "hidden";
     };
 
     const closeModal = () => {
+        if (!modal) return;
         modal.classList.add("hidden");
-        document.body.style.overflow = ""; // Restore scroll
+        document.body.style.overflow = "";
     };
 
-    /* -------------------------------------------
-        MODAL EVENT LISTENERS
-    ------------------------------------------- */
-    openBtn.addEventListener("click", openModal);
-    closeBtn.addEventListener("click", closeModal);
-    cancelBtn.addEventListener("click", closeModal);
+    /* -------------------------------
+       MODAL EVENT LISTENERS
+    ------------------------------- */
+    if (openBtn) openBtn.addEventListener("click", openModal);
+    if (closeBtn) closeBtn.addEventListener("click", closeModal);
+    if (cancelBtn) cancelBtn.addEventListener("click", closeModal);
+    if (modal) {
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) closeModal();
+        });
+    }
 
-    // Close when clicking outside modal content
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) closeModal();
-    });
-
-    // Close using Escape key
     document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+        if (e.key === "Escape" && modal && !modal.classList.contains("hidden")) {
             closeModal();
         }
     });
 
-    /* -------------------------------------------
-        IMAGE UPLOAD HANDLERS
-    ------------------------------------------- */
+    /* -------------------------------
+       IMAGE UPLOAD HANDLERS
+    ------------------------------- */
+    const openFileDialog = () => inputClubPicture?.click();
 
-    // Opens file picker
-    const openFileDialog = () => inputClubPicture.click();
-    uploadImageBtn.addEventListener("click", openFileDialog);
-    emptyPreview.addEventListener("click", openFileDialog);
+    if (uploadImageBtn) uploadImageBtn.addEventListener("click", openFileDialog);
+    if (emptyPreview) emptyPreview.addEventListener("click", openFileDialog);
 
-    // Image selection & validation
-    inputClubPicture.addEventListener("change", function () {
-        const file = this.files[0];
-        if (!file) return;
+    if (inputClubPicture) {
+        inputClubPicture.addEventListener("change", function () {
+            const file = this.files[0];
+            if (!file) return;
 
-        // Ensure file is an image
-        if (!file.type.startsWith("image/")) {
-            alert("Please select an image file.");
-            this.value = "";
-            return;
-        }
+            if (!file.type.startsWith("image/")) {
+                alert("Please select an image file.");
+                this.value = "";
+                return;
+            }
 
-        // File size limit: 5MB
-        if (file.size > 5 * 1024 * 1024) {
-            alert("Image must be smaller than 5MB.");
-            this.value = "";
-            return;
-        }
+            if (file.size > 5 * 1024 * 1024) {
+                alert("Image must be smaller than 5MB.");
+                this.value = "";
+                return;
+            }
 
-        // Display preview
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            imagePreview.src = e.target.result;
+            if (imagePreview && previewContainer && emptyPreview) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    previewContainer.classList.remove("hidden");
+                    emptyPreview.classList.add("hidden");
+                };
+                reader.readAsDataURL(file);
+            }
 
-            previewContainer.classList.remove("hidden");
-            emptyPreview.classList.add("hidden");
-        };
-        reader.readAsDataURL(file);
+            if (fileNameText && fileNameWrapper) {
+                fileNameText.textContent = file.name;
+                fileNameWrapper.classList.remove("hidden");
+            }
+        });
+    }
 
-        // Show file name
-        fileNameText.textContent = file.name;
-        fileNameWrapper.classList.remove("hidden");
-    });
+    if (removeImageBtn) {
+        removeImageBtn.addEventListener("click", () => {
+            if (inputClubPicture) inputClubPicture.value = "";
+            if (imagePreview) imagePreview.src = "";
+            if (previewContainer && emptyPreview && fileNameWrapper) {
+                previewContainer.classList.add("hidden");
+                emptyPreview.classList.remove("hidden");
+                fileNameWrapper.classList.add("hidden");
+            }
+        });
+    }
 
-    /* -------------------------------------------
-        REMOVE IMAGE
-    ------------------------------------------- */
-    removeImageBtn.addEventListener("click", () => {
-        inputClubPicture.value = "";
-        imagePreview.src = "";
+    if (imagePreview) imagePreview.addEventListener("click", openFileDialog);
 
-        previewContainer.classList.add("hidden");
-        emptyPreview.classList.remove("hidden");
-        fileNameWrapper.classList.add("hidden");
-    });
+    /* -------------------------------
+       FORM SUBMISSION
+    ------------------------------- */
+    if (createClubForm) {
+        createClubForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
 
-    // Clicking preview also opens file selection
-    imagePreview.addEventListener("click", openFileDialog);
+            const clubName = document.getElementById("clubName")?.value.trim();
+            const description = document.getElementById("description")?.value.trim();
+            const location = document.getElementById("location")?.value.trim();
+            const imageFile = inputClubPicture?.files[0];
+
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+
+                let imageUrl = null;
+
+                if (imageFile) {
+                    const filePath = `clubs/${user.id}-${Date.now()}-${imageFile.name}`;
+                    const { error: uploadError } = await supabaseClient.storage
+                        .from("club_images")
+                        .upload(filePath, imageFile);
+
+                    if (uploadError) throw uploadError;
+
+                    const { data } = supabaseClient.storage
+                        .from("club_images")
+                        .getPublicUrl(filePath);
+
+                    imageUrl = data.publicUrl;
+                }
+
+                const { error } = await supabaseClient
+                    .from("clubs")
+                    .insert({
+                        club_name: clubName,
+                        description,
+                        location,
+                        club_image: imageUrl,
+                        owner_id: user.id
+                    });
+
+                if (error) throw error;
+
+                alertSystem.show("Club created successfully!", "success");
+                createClubForm.reset();
+                if (previewContainer && emptyPreview && fileNameWrapper) {
+                    previewContainer.classList.add("hidden");
+                    emptyPreview.classList.remove("hidden");
+                    fileNameWrapper.classList.add("hidden");
+                }
+                closeModal();
+            } catch (err) {
+                console.error(err);
+                alertSystem.show("Error creating club", "error");
+            }
+        });
+    }
 });

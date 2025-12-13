@@ -116,9 +116,9 @@ export function leftSideBar() {
                                         class="sidebar-link flex items-center gap-3 p-3 rounded-lg text-gray-700 hover:bg-gray-100 transition"
                                         data-page="messages"><i class="fas fa-comment-dots w-5 text-center"></i>
                                         Messages</a></li>
-                                <li><a href="./settings.html"
+                                <li><a href="./profile.html"
                                         class="sidebar-link flex items-center gap-3 p-3 rounded-lg text-gray-700 hover:bg-gray-100 transition"
-                                        data-page="settings"><i class="fas fa-cog w-5 text-center"></i> Settings</a>
+                                        data-page="profile"><i class="fas fa-circle-user w-5 text-center"></i> Profile</a>
                                 </li>
                             </ul>
                         </div>
