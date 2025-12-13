@@ -101,10 +101,10 @@ export function leftSideBar() {
                                 <li><a href="./home.html"
                                         class="sidebar-link flex items-center gap-3 p-3 rounded-lg bg-gray-100 text-primary font-medium"
                                         data-page="home"><i class="fas fa-home w-5 text-center"></i>Home</a></li>
-                                <li><a href="./friends.html"
+                                <li><a href="./videos.html"
                                         class="sidebar-link flex items-center gap-3 p-3 rounded-lg text-gray-700 hover:bg-gray-100 transition"
-                                        data-page="friends"><i class="fas fa-user-friends w-5 text-center"></i>
-                                        Friends</a></li>
+                                        data-page="videos"><i class="fab fa-youtube w-5 text-center"></i>
+                                        Videos</a></li>
                                 <li><a href="./clubs.html"
                                         class="sidebar-link flex items-center gap-3 p-3 rounded-lg text-gray-700 hover:bg-gray-100 transition"
                                         data-page="clubs"><i class="fas fa-users w-5 text-center"></i> Clubs</a></li>
